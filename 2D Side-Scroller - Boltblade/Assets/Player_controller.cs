@@ -7,8 +7,9 @@ public class Player_controller : MonoBehaviour
     public float speed = 25;
     public float maxSpeed = 5f;
     private Rigidbody2D playerRB2D;
-    public float jumpPower = 6.5f;
+    public float jumpPower = 1.5f;
     private bool jump;
+    public float desiredx;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +21,7 @@ public class Player_controller : MonoBehaviour
     void Update()
     {
        
+       
     }
 
     //Trabajando con fisicas
@@ -29,13 +31,26 @@ public class Player_controller : MonoBehaviour
 
         playerRB2D.AddForce(Vector2.right * speed * h);
 
-        if (playerRB2D.velocity.x > maxSpeed) {
-            playerRB2D.velocity = new Vector2(maxSpeed, playerRB2D.velocity.y);
+        if (Input.GetButton("Jump"))
+        {
+            playerRB2D.velocity = new Vector2(0, 5);
+            //playerRB2D.velocity.y = 6.5f;
         }
 
-        if (playerRB2D.velocity.x < -maxSpeed)
+        if (playerRB2D.velocity.x > maxSpeed) {
+
+           
+
+            playerRB2D.velocity = new Vector2(maxSpeed, playerRB2D.velocity.y);
+           
+        }
+        else if (playerRB2D.velocity.x < -maxSpeed)
         {
             playerRB2D.velocity = new Vector2(-maxSpeed, playerRB2D.velocity.y);
+
+           
         }
+
+       
     }
 }
