@@ -7,7 +7,7 @@ public class Player_controller : MonoBehaviour
     public float speed = 25f;
     public float maxSpeed = 5f;
     private Rigidbody2D playerRB2D;
-    public float jumpPower = 1.5f;
+    public float jumpPower = 5;
     private bool jump;
     public float desiredx;
     private Animator anim;
@@ -34,9 +34,9 @@ public class Player_controller : MonoBehaviour
 
         playerRB2D.AddForce(Vector2.right * speed * h);
 
-        if (Input.GetButton("Jump"))
+        if (Input.GetButton("Jump") && grounded == true)
         {
-            playerRB2D.velocity = new Vector2(0, 5);
+            playerRB2D.velocity = new Vector2(0, 7);
             //playerRB2D.velocity.y = 6.5f;
         }
 
