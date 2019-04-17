@@ -19,7 +19,10 @@ public class CheckGround : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        player.grounded = true;
+        if (collision.gameObject.tag == "Ground")
+        {
+            player.grounded = true;
+        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
