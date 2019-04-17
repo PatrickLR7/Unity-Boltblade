@@ -7,11 +7,12 @@ public class Player_controller : MonoBehaviour
     public float speed = 25f;
     public float maxSpeed = 5f;
     private Rigidbody2D playerRB2D;
-    public int jumpPower = 7;
+    public int jumpPower = 12;
     private bool jump;
     public float desiredx;
     private Animator anim;
     public bool grounded;
+    public bool facingRight = true;
 
     // Start is called before the first frame update
     void Start()
@@ -31,7 +32,6 @@ public class Player_controller : MonoBehaviour
     private void FixedUpdate()
     {
         float h = Input.GetAxis("Horizontal");
-        
 
         playerRB2D.AddForce(Vector2.right * speed * h);
 
@@ -39,19 +39,6 @@ public class Player_controller : MonoBehaviour
         {
             playerRB2D.velocity = new Vector2(0, 8);
             //playerRB2D.velocity.y = 6.5f;
-        }
-
-        if ( h > 0.1f) {
-
-            transform.localScale = new Vector3(1f, 1f, 1f);
-
-        }
-
-        if (h < 0.1f)
-        {
-
-            transform.localScale = new Vector3(-1f, 1f, 1f);
-
         }
 
         /*
@@ -66,5 +53,22 @@ public class Player_controller : MonoBehaviour
         float limitedSpeed = Mathf.Clamp(playerRB2D.velocity.x, -maxSpeed, maxSpeed);
         playerRB2D.velocity = new Vector2(limitedSpeed, playerRB2D.velocity.y);
 
+        if (Input.GetKey("right") || Input.GetKey("d")) {
+            if (h > 0.1f && !facingRight) {
+                Flip(); //Rotate Right
+            }
+            
+        }
+        if (Input.GetKey("left") || Input.GetKey("a")) {
+            if (h < 0.1f && facingRight) {
+                Flip(); //Rotate Left
+            }
+        }
+
+    }
+
+    void Flip() {
+        facingRight = !facingRight;
+        transform.Rotate(Vector3.up * 180);
     }
 }
