@@ -9,7 +9,7 @@ public class weapon : MonoBehaviour
 
     void Start()
     {
-        InvokeRepeating("Shoot", 1.0f, 1.1f);
+        InvokeRepeating("Shoot", 1.0f, 2.2f);
     }
 
     void Shoot()

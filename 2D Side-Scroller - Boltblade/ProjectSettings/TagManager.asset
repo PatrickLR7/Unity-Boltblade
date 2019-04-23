@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - Shot
+  - Spawn
   layers:
   - Default
   - TransparentFX
@@ -16,8 +17,8 @@ TagManager:
   - 
   - 
   - Bullet
-  - 
-  - 
+  - Spawn
+  - Grid
   - 
   - 
   - 
@@ -42,6 +43,9 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 1
+  - name: Spawn
+    uniqueID: 1739959745
     locked: 0
   - name: Tiles
     uniqueID: 367027911
