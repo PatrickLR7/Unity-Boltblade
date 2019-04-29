@@ -30,7 +30,7 @@ public class Player : MonoBehaviour
         if (hitInfo.name != "Main Character" && hitInfo.tag != "Shot")
         {
             Debug.Log("Hit " + hitInfo.name + "" +  hitInfo.tag);
-            Destroy(hitInfo.gameObject);
+            //Destroy(hitInfo.gameObject);
         }
     }
 }

@@ -29,15 +29,17 @@ public class Player_controller : MonoBehaviour
     {
         float h = Input.GetAxis("Horizontal");
 
-        playerRB2D.AddForce(Vector2.right * speed * h);
+        //playerRB2D.AddForce(Vector2.right * speed * h);
+        playerRB2D.velocity = new Vector2(maxSpeed * h, playerRB2D.velocity.y);
 
         if (Input.GetButton("Jump"))
         {
-            playerRB2D.velocity = new Vector2(0, 5);
+            //playerRB2D.velocity = new Vector2(0, 5);
             //playerRB2D.velocity.y = 6.5f;
+            playerRB2D.AddForce(Vector2.up * 350f);
         }
 
-        if (playerRB2D.velocity.x > maxSpeed) {
+        /*if (playerRB2D.velocity.x > maxSpeed) {
 
            
 
@@ -49,7 +51,7 @@ public class Player_controller : MonoBehaviour
             playerRB2D.velocity = new Vector2(-maxSpeed, playerRB2D.velocity.y);
 
            
-        }
+        }*/
 
        
     }
