@@ -14,11 +14,23 @@ public class Player_controller : MonoBehaviour
     public bool grounded;
     public bool facingRight = true;
 
+
+    private float timeBtwAttack;
+    public float startTimeBtwAttack;
+    public Transform attackPos;
+    public LayerMask whatIsEnemies;
+    
+    public Animator playerAnim;
+    public float attackRange;
+
+
+
     // Start is called before the first frame update
     void Start()
     {
         playerRB2D = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        playerAnim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -26,7 +38,45 @@ public class Player_controller : MonoBehaviour
     {
         anim.SetFloat("speed", Mathf.Abs(playerRB2D.velocity.x));
         anim.SetBool("grounded", grounded);
+
+
+
+        if (timeBtwAttack <= 0)
+        {
+
+            if (Input.GetKey("q"))
+            {
+                playerAnim.SetTrigger("attack");
+                Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(attackPos.position, attackRange, whatIsEnemies);
+                for (int i = 0; i < enemiesToDamage.Length; i++)
+                {
+                    //enemiesToDamage[i].GetComponent<Enemy>().TakeDamage(damage);
+
+                }
+            }
+
+            timeBtwAttack = startTimeBtwAttack;
+
+        }
+        else
+        {
+
+            timeBtwAttack -= Time.deltaTime;
+        }
+
+
     }
+
+
+    void OnDrawGizmosSelected()
+    {
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(attackPos.position, attackRange);
+    }
+
+
+
 
     //Should always be used for physics calculations.
     private void FixedUpdate()
