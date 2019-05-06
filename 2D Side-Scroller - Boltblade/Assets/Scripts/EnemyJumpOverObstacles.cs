@@ -13,6 +13,7 @@ public class EnemyJumpOverObstacles : MonoBehaviour
     public Transform target;
     public bool isGrounded;
     public float jumpForce;
+    public LayerMask groundLayer;
 
     // Start is called before the first frame update
     void Start()
@@ -58,20 +59,37 @@ public class EnemyJumpOverObstacles : MonoBehaviour
         {
             localScale.x *= -1;
         }
-
         transform.localScale = localScale;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log("trigger enter");
         switch (collision.tag)
         {
             case "Environment":
-                rb.AddForce(Vector2.up * jumpForce);
-                
+                //if (IsGrounded())
+                //{
+                    rb.AddForce(Vector2.up * jumpForce);
+                    Debug.Log("jumping");
+                //}
                 break;
         }
     }
-    
+
+    bool IsGrounded()
+    {
+        Vector2 position = transform.position;
+        Vector2 direction = Vector2.down;
+        float distance = 1.0f;
+        
+        RaycastHit2D hit = Physics2D.Raycast(position, direction, distance, groundLayer);
+        if (hit.collider != null)
+        {
+            return true;
+        }
+        return false;
+    }
+
 }
 
