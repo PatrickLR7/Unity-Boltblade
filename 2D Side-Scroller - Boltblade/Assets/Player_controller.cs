@@ -40,7 +40,7 @@ public class Player_controller : MonoBehaviour
         anim.SetBool("grounded", grounded);
 
 
-
+        //Controls Player Attack
         if (timeBtwAttack <= 0)
         {
 
@@ -81,9 +81,11 @@ public class Player_controller : MonoBehaviour
     //Should always be used for physics calculations.
     private void FixedUpdate()
     {
+        //Controls Player Movement
         float h = Input.GetAxis("Horizontal");
 
-        playerRB2D.AddForce(Vector2.right * speed * h);
+        //playerRB2D.AddForce(Vector2.right * speed * h);
+        playerRB2D.velocity = new Vector2(maxSpeed * h, playerRB2D.velocity.y);
 
         if (Input.GetButton("Jump") && grounded == true)
         {
