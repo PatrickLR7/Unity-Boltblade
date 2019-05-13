@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyJumpOverObstacles : MonoBehaviour
+public class GroundEnemy : MonoBehaviour
 {
 
     public float dirX;
@@ -39,6 +39,7 @@ public class EnemyJumpOverObstacles : MonoBehaviour
     private void FixedUpdate()
     {
         rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
+        Debug.Log("moving");
     }
 
     private void LateUpdate()
@@ -64,15 +65,14 @@ public class EnemyJumpOverObstacles : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("trigger enter");
         switch (collision.tag)
         {
             case "Environment":
-                //if (IsGrounded())
-                //{
+                if (IsGrounded())
+                {
                     rb.AddForce(Vector2.up * jumpForce);
                     Debug.Log("jumping");
-                //}
+                }
                 break;
         }
     }
@@ -83,7 +83,9 @@ public class EnemyJumpOverObstacles : MonoBehaviour
         Vector2 direction = Vector2.down;
         float distance = 1.0f;
         
+        Debug.DrawRay(position, direction, Color.green);
         RaycastHit2D hit = Physics2D.Raycast(position, direction, distance, groundLayer);
+        
         if (hit.collider != null)
         {
             return true;
