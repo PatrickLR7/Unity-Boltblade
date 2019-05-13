@@ -22,6 +22,7 @@ public class Player_controller : MonoBehaviour
     
     public Animator playerAnim;
     public float attackRange;
+    public int damage;
 
 
 
@@ -44,14 +45,13 @@ public class Player_controller : MonoBehaviour
         if (timeBtwAttack <= 0)
         {
 
-            if (Input.GetKey("q"))
+            if (Input.GetKey("q") || Input.GetMouseButtonDown(0))
             {
-                playerAnim.SetTrigger("attack");
+                playerAnim.SetTrigger("attack2");
                 Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(attackPos.position, attackRange, whatIsEnemies);
                 for (int i = 0; i < enemiesToDamage.Length; i++)
                 {
-                    //enemiesToDamage[i].GetComponent<Enemy>().TakeDamage(damage);
-
+                    enemiesToDamage[i].GetComponent<EnemyDeath>().takeDamage(damage);
                 }
             }
 

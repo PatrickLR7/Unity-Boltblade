@@ -259,7 +259,7 @@ GameObject:
   - component: {fileID: 459670323}
   - component: {fileID: 459670322}
   m_Layer: 0
-  m_Name: dragon-attack
+  m_Name: Dragon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -325,7 +325,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
 --- !u!1 &519420028
 GameObject:
@@ -607,9 +607,9 @@ GameObject:
   - component: {fileID: 846733838}
   - component: {fileID: 846733839}
   - component: {fileID: 846733840}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Bat
-  m_TagString: Untagged
+  m_TagString: Bat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -621,12 +621,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 846733834}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 3.5, y: 4.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1052348783}
-  m_RootOrder: 3
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &846733836
 Rigidbody2D:
@@ -648,7 +648,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!212 &846733837
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -753,7 +753,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dd231603426d4c46a554d7c4dba8158, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 300
   blood: {fileID: 2896031869245304164, guid: b36d5f6cab0fb0b4f958a1c7453244cd, type: 3}
+  startDazedTime: 0.6
+  skeleton: {fileID: 0}
+  bat: {fileID: 0}
 --- !u!1 &1052348781
 GameObject:
   m_ObjectHideFlags: 0
@@ -797,8 +801,6 @@ Transform:
   m_Children:
   - {fileID: 1476677595}
   - {fileID: 1205019892}
-  - {fileID: 2045636829}
-  - {fileID: 846733835}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -13018,7 +13020,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1335844240}
   m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
-  m_LocalPosition: {x: -4.144, y: -2.133, z: 0}
+  m_LocalPosition: {x: -3.99, y: -2.01, z: 0}
   m_LocalScale: {x: 0.49575147, y: 0.49575147, z: 0.49575147}
   m_Children:
   - {fileID: 1472466315}
@@ -13091,13 +13093,14 @@ MonoBehaviour:
   desiredx: 0
   grounded: 0
   facingRight: 1
-  startTimeBtwAttack: 0.1
+  startTimeBtwAttack: 0.3
   attackPos: {fileID: 665603222}
   whatIsEnemies:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   playerAnim: {fileID: 0}
-  attackRange: 0.7
+  attackRange: 1
+  damage: 50
 --- !u!95 &1335844246
 Animator:
   serializedVersion: 3
@@ -16564,7 +16567,7 @@ GameObject:
   - component: {fileID: 1685806272}
   - component: {fileID: 1685806271}
   m_Layer: 0
-  m_Name: frog-jump-02
+  m_Name: Frog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16630,7 +16633,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1719272663
 PrefabInstance:
@@ -16963,9 +16966,9 @@ GameObject:
   - component: {fileID: 2045636831}
   - component: {fileID: 2045636830}
   - component: {fileID: 2045636835}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Skeleton
-  m_TagString: Untagged
+  m_TagString: Skeleton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16977,12 +16980,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2045636828}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 1.5, y: -2.5, z: 0}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
+  m_LocalPosition: {x: 1.46, y: -2.42, z: 0}
   m_LocalScale: {x: 6.7093, y: 6.7093, z: 6.7093}
   m_Children: []
-  m_Father: {fileID: 1052348783}
-  m_RootOrder: 2
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &2045636830
 MonoBehaviour:
@@ -17127,7 +17130,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dd231603426d4c46a554d7c4dba8158, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 300
   blood: {fileID: 2896031869245304164, guid: b36d5f6cab0fb0b4f958a1c7453244cd, type: 3}
+  startDazedTime: 0.6
+  skeleton: {fileID: 0}
+  bat: {fileID: 0}
 --- !u!1 &2145047987
 GameObject:
   m_ObjectHideFlags: 0

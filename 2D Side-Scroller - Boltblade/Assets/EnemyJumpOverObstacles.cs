@@ -13,6 +13,10 @@ public class EnemyJumpOverObstacles : MonoBehaviour
     public Transform target;
     public bool isGrounded;
     public float jumpForce;
+    //public int health;
+    //public GameObject blood;
+    //private float dazedTime;
+    //public float startDazedTime;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +38,25 @@ public class EnemyJumpOverObstacles : MonoBehaviour
         {
             dirX = -1f;
         }
+    
+
+    /*
+        //If health reaches 0 the enemy dies
+        if (health <= 0) {
+            Destroy(gameObject);
+        }
+
+        //Enemy stops moving when hit
+        if (dazedTime <= 0)
+        {
+            moveSpeed = 3f;
+        }
+        else {
+            moveSpeed = 0;
+            dazedTime -= Time.deltaTime;
+        }
+
+    */
     }
 
     private void FixedUpdate()
@@ -75,5 +98,13 @@ public class EnemyJumpOverObstacles : MonoBehaviour
         }
     }
 
+    /*
+    //Enemy receives damage when the player attacks
+    public void takeDamage(int damage) {
+        dazedTime = startDazedTime;
+        Instantiate(blood, transform.position, Quaternion.identity);
+        health = health - damage;
+    }
+    */
 }
 
