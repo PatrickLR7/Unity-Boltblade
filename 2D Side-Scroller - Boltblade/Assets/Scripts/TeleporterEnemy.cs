@@ -51,7 +51,9 @@ public class TeleporterEnemy : MonoBehaviour
 
     public void checkIfTimeToFire(){
         if(Time.time > nextFire){
+            
             Instantiate(laser, transform.position, Quaternion.identity);
+
             nextFire = Time.time + fireRate;
         }
     }
