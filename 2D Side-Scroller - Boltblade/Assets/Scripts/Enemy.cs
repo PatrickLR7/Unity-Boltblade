@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BatScript : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
 
     public GameObject blood;
@@ -17,7 +17,8 @@ public class BatScript : MonoBehaviour
     {
         
     }
-    
+
+        
 
     private void OnCollisionEnter2D(Collision2D collision)
     {

@@ -39,20 +39,6 @@ public class Player_controller : MonoBehaviour
             playerRB2D.AddForce(Vector2.up * 350f);
         }
 
-        /*if (playerRB2D.velocity.x > maxSpeed) {
-
-           
-
-            playerRB2D.velocity = new Vector2(maxSpeed, playerRB2D.velocity.y);
-           
-        }
-        else if (playerRB2D.velocity.x < -maxSpeed)
-        {
-            playerRB2D.velocity = new Vector2(-maxSpeed, playerRB2D.velocity.y);
-
-           
-        }*/
-
        
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyJumpOverObstacles : MonoBehaviour
+public class GroundEnemy : MonoBehaviour
 {
 
     public float dirX;
@@ -13,6 +13,7 @@ public class EnemyJumpOverObstacles : MonoBehaviour
     public Transform target;
     public bool isGrounded;
     public float jumpForce;
+    public LayerMask groundLayer;
 
     // Start is called before the first frame update
     void Start()
@@ -38,6 +39,7 @@ public class EnemyJumpOverObstacles : MonoBehaviour
     private void FixedUpdate()
     {
         rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
+        Debug.Log("moving");
     }
 
     private void LateUpdate()
@@ -58,7 +60,6 @@ public class EnemyJumpOverObstacles : MonoBehaviour
         {
             localScale.x *= -1;
         }
-
         transform.localScale = localScale;
     }
 
@@ -67,11 +68,30 @@ public class EnemyJumpOverObstacles : MonoBehaviour
         switch (collision.tag)
         {
             case "Environment":
-                rb.AddForce(Vector2.up * jumpForce);
-                
+                if (IsGrounded())
+                {
+                    rb.AddForce(Vector2.up * jumpForce);
+                    Debug.Log("jumping");
+                }
                 break;
         }
     }
-    
+
+    bool IsGrounded()
+    {
+        Vector2 position = transform.position;
+        Vector2 direction = Vector2.down;
+        float distance = 1.0f;
+        
+        Debug.DrawRay(position, direction, Color.green);
+        RaycastHit2D hit = Physics2D.Raycast(position, direction, distance, groundLayer);
+        
+        if (hit.collider != null)
+        {
+            return true;
+        }
+        return false;
+    }
+
 }
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyFollow : MonoBehaviour
+public class FlyingEnemy : MonoBehaviour
 {
     public float dirX;
     public float moveSpeed = 2f;
