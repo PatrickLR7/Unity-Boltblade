@@ -25,12 +25,12 @@ public class Player : MonoBehaviour
         Debug.Log("Player's health = " + health);
     }
 
-    public void OnTriggerEnter2D(Collider2D hitInfo)
+    public void OnTriggerEnter2D(Collider2D collision)
     {
-        if (hitInfo.name != "Main Character" && hitInfo.tag != "Shot")
+        if (collision.tag.Equals("Shot"))
         {
-            Debug.Log("Hit " + hitInfo.name + "" +  hitInfo.tag);
-            //Destroy(hitInfo.gameObject);
+            HitPlayer();
+            Destroy(collision.gameObject);
         }
     }
 }

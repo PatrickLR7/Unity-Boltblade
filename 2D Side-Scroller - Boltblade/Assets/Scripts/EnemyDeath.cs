@@ -9,13 +9,18 @@ public class EnemyDeath : MonoBehaviour
     public GameObject blood;
     private float dazedTime;
     public float startDazedTime;
-    public EnemyJumpOverObstacles skeleton;
-    public EnemyFollow bat;
+    public GroundEnemy skeleton;
+    public FlyingEnemy bat;
+
+    public float flashTime;
+    Color origionalColor;
+    [HideInInspector][SerializeField] new Renderer renderer;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        renderer = GetComponent<SpriteRenderer>();
+        origionalColor = renderer.material.color;
     }
 
     // Update is called once per frame
@@ -25,6 +30,7 @@ public class EnemyDeath : MonoBehaviour
         if (health <= 0)
         {
             Destroy(gameObject);
+            Instantiate(blood, transform.position, Quaternion.identity);
         }
 
         //Enemy stops moving when hit
@@ -32,11 +38,11 @@ public class EnemyDeath : MonoBehaviour
         {
             if (this.tag == "Skeleton")
             {
-                skeleton = gameObject.GetComponent<EnemyJumpOverObstacles>();
+                skeleton = gameObject.GetComponent<GroundEnemy>();
                 skeleton.moveSpeed = 5;
             }
             else if (this.tag == "Bat") {
-                bat = gameObject.GetComponent<EnemyFollow>();
+                bat = gameObject.GetComponent<FlyingEnemy>();
                 bat.moveSpeed = 5;
             }
            
@@ -45,40 +51,33 @@ public class EnemyDeath : MonoBehaviour
         {
             if (this.tag == "Skeleton")
             {
-                skeleton = gameObject.GetComponent<EnemyJumpOverObstacles>();
+                skeleton = gameObject.GetComponent<GroundEnemy>();
                 skeleton.moveSpeed = 0;
             }
             else if (this.tag == "Bat")
             {
-                bat = gameObject.GetComponent<EnemyFollow>();
+                bat = gameObject.GetComponent<FlyingEnemy>();
                 bat.moveSpeed = 0;
             }
             dazedTime -= Time.deltaTime;
         }
     }
 
-    /*
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag.Equals("Player"))
-        {
-            Instantiate(blood, transform.position, Quaternion.identity);
-            Destroy(gameObject);
-        }
-        if (collision.gameObject.tag.Equals("Bullet"))
-        {
-            Instantiate(blood, transform.position, Quaternion.identity);
-            Destroy(collision.gameObject);
-            Destroy(gameObject);
-        }
-    }
-    */
-
     //Enemy receives damage when the player attacks
     public void takeDamage(int damage)
     {
         dazedTime = startDazedTime;
-        Instantiate(blood, transform.position, Quaternion.identity);
+        FlashRed();
         health = health - damage;
+    }
+
+    void FlashRed()
+    {
+        renderer.material.color = Color.red;
+        Invoke("ResetColor", flashTime);
+    }
+    void ResetColor()
+    {
+        renderer.material.color = origionalColor;
     }
 }

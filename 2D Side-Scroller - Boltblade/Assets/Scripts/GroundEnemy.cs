@@ -39,7 +39,6 @@ public class GroundEnemy : MonoBehaviour
     private void FixedUpdate()
     {
         rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
-        Debug.Log("moving");
     }
 
     private void LateUpdate()
@@ -71,7 +70,6 @@ public class GroundEnemy : MonoBehaviour
                 if (IsGrounded())
                 {
                     rb.AddForce(Vector2.up * jumpForce);
-                    Debug.Log("jumping");
                 }
                 break;
         }

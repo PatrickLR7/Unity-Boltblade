@@ -20,8 +20,8 @@ public class TeleporterEnemy : MonoBehaviour
     void Start()
     {
         dirX = -1f;
-        teleportTimer = 2f;
-        fireRate = 1f;
+        teleportTimer = 3f;
+        fireRate = 2f;
         nextFire = Time.time;
         localScale = transform.localScale;
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
