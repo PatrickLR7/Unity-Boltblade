@@ -5,7 +5,7 @@ using UnityEngine;
 public class Wave_Spawner : MonoBehaviour
 {
     public enum SpawnState { SPAWNING, WAITING, COUNTING }
-    public enum LastEnemy { NONE, EYE, GHOST, SLIME }
+    public enum LastEnemy { NONE, EYE, BAT, SKELETON }
 
     [System.Serializable]
     public class Wave
@@ -23,7 +23,7 @@ public class Wave_Spawner : MonoBehaviour
         public float rate;
     }
 
-    public Transform eye, ghost, slime;
+    public Transform eye, bat, skeleton;
     private Wave[] waves;
     private string[] msg;
     private int nextWave = 0;
@@ -66,11 +66,11 @@ public class Wave_Spawner : MonoBehaviour
                 case LastEnemy.EYE:
                     (lastSpawned, m) = DecideFromEye();
                     break;
-                case LastEnemy.GHOST:
-                    (lastSpawned, m) = DecideFromGhost();
+                case LastEnemy.BAT:
+                    (lastSpawned, m) = DecideFromBat();
                     break;
-                case LastEnemy.SLIME:
-                    (lastSpawned, m) = DecideFromSlime();
+                case LastEnemy.SKELETON:
+                    (lastSpawned, m) = DecideFromSkeleton();
                     break;
             }
             AddWave(i, lastSpawned);
@@ -92,10 +92,10 @@ public class Wave_Spawner : MonoBehaviour
             case 5:
             case 6:
             case 7:
-                return (LastEnemy.GHOST, "50% for ghost first");
+                return (LastEnemy.BAT, "50% for bat first");
             case 8:
             case 9:
-                return (LastEnemy.SLIME, "20% for slime first");
+                return (LastEnemy.SKELETON, "20% for skeleton first");
             default:
                 return (LastEnemy.NONE, "0%");
         }
@@ -114,17 +114,17 @@ public class Wave_Spawner : MonoBehaviour
             case 4:
             case 5:
             case 6:
-                return (LastEnemy.GHOST, "30% from eye to ghost");
+                return (LastEnemy.BAT, "30% from eye to bat");
             case 7:
             case 8:
             case 9:
-                return (LastEnemy.SLIME, "30% from eye to slime");
+                return (LastEnemy.SKELETON, "30% from eye to skeleton");
             default:
                 return (LastEnemy.NONE, "0%");
         }
     }
 
-    (LastEnemy, string) DecideFromGhost()
+    (LastEnemy, string) DecideFromBat()
     {
         int randomNumber = Random.Range(0, 10);
         switch (randomNumber)
@@ -132,22 +132,22 @@ public class Wave_Spawner : MonoBehaviour
             case 0:
             case 1:
             case 2:
-                return (LastEnemy.EYE, "30% from ghost to eye");
+                return (LastEnemy.EYE, "30% from bat to eye");
             case 3:
             case 4:
             case 5:
             case 6:
             case 7:
-                return (LastEnemy.GHOST, "50% to ghost again");
+                return (LastEnemy.BAT, "50% to bat again");
             case 8:
             case 9:
-                return (LastEnemy.SLIME, "20% from ghost to slime");
+                return (LastEnemy.SKELETON, "20% from bat to skeleton");
             default:
                 return (LastEnemy.NONE, "0%");
         }
     }
 
-    (LastEnemy, string) DecideFromSlime()
+    (LastEnemy, string) DecideFromSkeleton()
     {
         int randomNumber = Random.Range(0, 10);
         switch (randomNumber)
@@ -155,16 +155,16 @@ public class Wave_Spawner : MonoBehaviour
             case 0:
             case 1:
             case 2:
-                return (LastEnemy.EYE, "30% from slime to eye");
+                return (LastEnemy.EYE, "30% from skeleton to eye");
             case 3:
             case 4:
             case 5:
-                return (LastEnemy.GHOST, "30% from slime to ghost");
+                return (LastEnemy.BAT, "30% from skeleton to bat");
             case 6:
             case 7:
             case 8:
             case 9:
-                return (LastEnemy.SLIME, "40% to slime again");
+                return (LastEnemy.SKELETON, "40% to skeleton again");
             default:
                 return (LastEnemy.NONE, "0%");
         }
@@ -172,18 +172,18 @@ public class Wave_Spawner : MonoBehaviour
 
     void AddWave(int position, LastEnemy lastEnemy)
     {
-        Wave wave1 = new Wave("Eye Sight", eye, 4, 3);
-        Wave wave2 = new Wave("Haunted Hunt", ghost, 8, 2);
-        Wave wave3 = new Wave("Lame Slime", slime, 5, 1.5f);
+        Wave wave1 = new Wave("Eye Sight", eye, 3, 0.8f);
+        Wave wave2 = new Wave("Blood Hunt", bat, 5, 0.7f);
+        Wave wave3 = new Wave("Bad to the bone", skeleton, 4, 0.9f);
         switch (lastEnemy)
         {
             case LastEnemy.EYE:
                 waves[position] = wave1;
                 break;
-            case LastEnemy.GHOST:
+            case LastEnemy.BAT:
                 waves[position] = wave2;
                 break;
-            case LastEnemy.SLIME:
+            case LastEnemy.SKELETON:
                 waves[position] = wave3;
                 break;
         }
@@ -224,7 +224,7 @@ public class Wave_Spawner : MonoBehaviour
             if (nextWave + 1 == totalWaves)
             {
                 //nextWave = 0;
-                nextWave++;
+               // nextWave++;
                 Debug.Log("All waves completed");
             }
             else
@@ -239,7 +239,9 @@ public class Wave_Spawner : MonoBehaviour
             if (searchCountdown <= 0f)
             {
                 searchCountdown = 1f;
-                if (GameObject.FindGameObjectWithTag("Enemy") == null)
+                if (GameObject.FindGameObjectWithTag("Bat") == null &&
+                    GameObject.FindGameObjectWithTag("Eye") == null &&
+                    GameObject.FindGameObjectWithTag("Skeleton") == null)
                 {
                     return false;
                 }
