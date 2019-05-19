@@ -13,6 +13,7 @@ public class GroundEnemy : MonoBehaviour
     public Transform target;
     public bool isGrounded;
     public float jumpForce;
+    public float jumpTime;
     public LayerMask groundLayer;
 
     // Start is called before the first frame update
@@ -21,16 +22,18 @@ public class GroundEnemy : MonoBehaviour
         localScale = transform.localScale;
         rb = GetComponent<Rigidbody2D>();
         dirX = -1f;
+        jumpTime = Time.time + UnityEngine.Random.Range( 1.0f, 2.0f );;
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        jumpForce = 250f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (transform.position.x < target.position.x - 0.5)
+        if (transform.position.x < (target.position.x - 0.5))
         {
             dirX = 1f;
-        } else if (transform.position.x > target.position.x + 0.5)
+        } else if (transform.position.x > (target.position.x - 0.5))
         {
             dirX = -1f;
         }
@@ -62,16 +65,51 @@ public class GroundEnemy : MonoBehaviour
         transform.localScale = localScale;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        switch (collision.tag)
+        switch (collision.gameObject.tag)
         {
             case "Environment":
                 if (IsGrounded())
                 {
-                    rb.AddForce(Vector2.up * jumpForce);
+                    Debug.Log("collision with wall");
+                    Jump();
                 }
                 break;
+            case "Skeleton":
+                if (IsGrounded())
+                {
+                    Debug.Log("collision with enemy");
+                    Jump();
+                }
+                break;
+        }
+    }
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        switch (collision.gameObject.tag)
+        {
+            case "Environment":
+                if (IsGrounded())
+                {
+                    Debug.Log("collision with wall");
+                    Jump();
+                }
+                break;
+            case "Skeleton":
+                if (IsGrounded())
+                {
+                    Debug.Log("collision with enemy");
+                    Jump();
+                }
+                break;
+        }
+    }
+
+    public void Jump(){
+        if(Time.time > jumpTime){
+            rb.AddForce(Vector2.up * jumpForce);
+            jumpTime = Time.time + UnityEngine.Random.Range( 1.0f, 2.0f );
         }
     }
 
@@ -90,6 +128,4 @@ public class GroundEnemy : MonoBehaviour
         }
         return false;
     }
-
 }
-
