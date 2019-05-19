@@ -224,7 +224,7 @@ public class Wave_Spawner : MonoBehaviour
             if (nextWave + 1 == totalWaves)
             {
                 //nextWave = 0;
-               // nextWave++;
+                nextWave++;
                 Debug.Log("All waves completed");
             }
             else

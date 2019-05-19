@@ -11,6 +11,8 @@ TagManager:
   - Enemy
   - Eye
   - Shot
+  - FxTemporaire
+  - Music
   layers:
   - Default
   - TransparentFX
