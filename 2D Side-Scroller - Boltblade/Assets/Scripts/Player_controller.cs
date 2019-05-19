@@ -47,7 +47,14 @@ public class Player_controller : MonoBehaviour
                 Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(attackPos.position, attackRange, whatIsEnemies);
                 for (int i = 0; i < enemiesToDamage.Length; i++)
                 {
-                    enemiesToDamage[i].GetComponent<EnemyDeath>().takeDamage(damage);
+                    if (enemiesToDamage[i].gameObject.name.Equals("EnemyCollider"))
+                    {
+                        enemiesToDamage[i].GetComponentInParent<EnemyDeath>().takeDamage(damage);
+                    }
+                    else
+                    {
+                        enemiesToDamage[i].GetComponent<EnemyDeath>().takeDamage(damage);
+                    }
                 }
             }
             timeBtwAttack = startTimeBtwAttack;

@@ -20,7 +20,7 @@ public class TeleporterEnemy : MonoBehaviour
     void Start()
     {
         dirX = -1f;
-        teleportTimer = 3f;
+        teleportTimer = 5f;
         fireRate = 2f;
         nextFire = Time.time;
         localScale = transform.localScale;
@@ -72,7 +72,7 @@ public class TeleporterEnemy : MonoBehaviour
             position.y *= -1;
         }
         transform.position = position;
-        teleportTimer = 2f;
+        teleportTimer = 5f;
     }
 
     private void LateUpdate()

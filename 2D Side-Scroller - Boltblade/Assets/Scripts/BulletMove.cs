@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BulletMove : MonoBehaviour
 {
-    public float speed = 5f;
+    public float speed = 4f;
     public Rigidbody2D rb;
     public Transform target;
     public Vector2 direction;
@@ -17,7 +17,7 @@ public class BulletMove : MonoBehaviour
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         direction = (target.transform.position - transform.position).normalized * speed;
         rb.velocity = new Vector2(direction.x, direction.y);
-        Destroy(gameObject,3f);
+        Destroy(gameObject,5f);
     }
 
     void OnTriggerEnter2D(Collider2D collision)

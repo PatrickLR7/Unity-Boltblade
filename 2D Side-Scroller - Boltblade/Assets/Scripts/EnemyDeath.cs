@@ -33,19 +33,18 @@ public class EnemyDeath : MonoBehaviour
             Instantiate(blood, transform.position, Quaternion.identity);
         }
 
-        //Enemy stops moving when hit
         if (dazedTime <= 0)
-        {
+        { //Add multiplier too
             if (this.tag == "Skeleton")
             {
                 skeleton = gameObject.GetComponent<GroundEnemy>();
-                skeleton.moveSpeed = 5;
+                skeleton.moveSpeed = 1;
             }
-            else if (this.tag == "Bat") {
+            else if (this.tag == "Bat")
+            {
                 bat = gameObject.GetComponent<FlyingEnemy>();
-                bat.moveSpeed = 5;
+                bat.moveSpeed = 2;
             }
-           
         }
         else
         {
