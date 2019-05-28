@@ -25,7 +25,9 @@ public class BulletMove : MonoBehaviour
         switch (collision.tag)
         {
             case "Player":
-                Debug.Log("player hit");
+                //Debug.Log("player hit");
+                //Player_controller.healthPoints--;
+                Player_controller.takeDamage();
                 Destroy(gameObject);
                 break;
         }

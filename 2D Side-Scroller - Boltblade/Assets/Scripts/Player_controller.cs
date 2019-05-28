@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player_controller : MonoBehaviour
 {
@@ -13,8 +14,9 @@ public class Player_controller : MonoBehaviour
     private Animator anim;
     public bool grounded;
     public bool facingRight = true;
-
-
+    public static int healthPoints;
+    public static bool canTakeDamage = true;
+    public static float timeInvincible = 2f;
     private float timeBtwAttack;
     public float startTimeBtwAttack;
     public Transform attackPos;
@@ -27,6 +29,7 @@ public class Player_controller : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        healthPoints = 5;
         playerRB2D = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         playerAnim = GetComponent<Animator>();
@@ -120,10 +123,37 @@ public class Player_controller : MonoBehaviour
             }
         }
 
+        if(healthPoints <= 0)
+        {
+            SceneManager.LoadScene(3);
+        }
+
+        if(!canTakeDamage)
+        {
+            timeInvincible -= Time.deltaTime;
+        }
+        if(timeInvincible <= 0)
+        {
+            canTakeDamage = true;
+        }
     }
 
     void Flip() {
         facingRight = !facingRight;
         transform.Rotate(Vector3.up * 180);
+    }
+
+    public static void takeDamage()
+    {
+        if(canTakeDamage)
+        {
+            Debug.Log("HP left:" + --healthPoints);
+            canTakeDamage = false;
+            timeInvincible = 2f;
+        }
+        // else
+        // {
+        //     Debug.Log("Can't take damage yet");
+        // }
     }
 }

@@ -25,6 +25,13 @@ public class GroundEnemy : MonoBehaviour
         jumpTime = Time.time + UnityEngine.Random.Range( 1.0f, 2.0f );;
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         jumpForce = 250f;
+        if(Wave_Spawner.nextWave > 0)
+        {
+            float multiplier = ((Wave_Spawner.nextWave * 5.0f) / 100.0f) + 1.0f;
+            //Debug.Log("Multiplier is: " + multiplier.ToString("n2"));
+            moveSpeed = moveSpeed * multiplier;
+            Debug.Log("Movement speed is: " + moveSpeed);
+        }
     }
 
     // Update is called once per frame
@@ -72,16 +79,21 @@ public class GroundEnemy : MonoBehaviour
             case "Environment":
                 if (IsGrounded())
                 {
-                    Debug.Log("collision with wall");
+                    //Debug.Log("collision with wall");
                     Jump();
                 }
                 break;
             case "Skeleton":
                 if (IsGrounded())
                 {
-                    Debug.Log("collision with enemy");
+                    //Debug.Log("collision with enemy");
                     Jump();
                 }
+                break;
+            case "Player":
+                //Debug.Log("player hit");
+                //Player_controller.healthPoints--;
+                Player_controller.takeDamage();
                 break;
         }
     }
@@ -92,16 +104,21 @@ public class GroundEnemy : MonoBehaviour
             case "Environment":
                 if (IsGrounded())
                 {
-                    Debug.Log("collision with wall");
+                    //Debug.Log("collision with wall");
                     Jump();
                 }
                 break;
             case "Skeleton":
                 if (IsGrounded())
                 {
-                    Debug.Log("collision with enemy");
+                    //Debug.Log("collision with enemy");
                     Jump();
                 }
+                break;
+            case "Player":
+                //Debug.Log("player hit");
+                //Player_controller.healthPoints--;
+                Player_controller.takeDamage();
                 break;
         }
     }
@@ -128,4 +145,16 @@ public class GroundEnemy : MonoBehaviour
         }
         return false;
     }
+
+    // void OnTriggerEnter2D(Collider2D collision)
+    // {
+    //     switch (collision.gameObject.tag)
+    //     {
+    //         case "Player":
+    //             //Debug.Log("player hit");
+    //             //Player_controller.healthPoints--;
+    //             Player_controller.takeDamage();
+    //             break;
+    //     }
+    // }
 }

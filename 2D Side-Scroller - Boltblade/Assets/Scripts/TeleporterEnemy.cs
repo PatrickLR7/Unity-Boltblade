@@ -7,6 +7,7 @@ public class TeleporterEnemy : MonoBehaviour
     public Transform target;
     public float dirX;
     float teleportTimer;
+    float maxTeleportTime;
     float flipX;
     float flipY;
     public Vector3 localScale;
@@ -20,11 +21,19 @@ public class TeleporterEnemy : MonoBehaviour
     void Start()
     {
         dirX = -1f;
-        teleportTimer = 5f;
+        maxTeleportTime = 5f;
         fireRate = 2f;
         nextFire = Time.time;
         localScale = transform.localScale;
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        if(Wave_Spawner.nextWave > 0)
+        {
+            float multiplier = ((Wave_Spawner.nextWave * 5.0f) / 100.0f) + 1.0f;
+            //Debug.Log("Multiplier is: " + multiplier.ToString("n2"));
+            maxTeleportTime = maxTeleportTime / multiplier;
+            Debug.Log("Teleporting time is: " + maxTeleportTime);
+        }
+        teleportTimer = maxTeleportTime;
     }
 
     // Update is called once per frame
@@ -72,7 +81,7 @@ public class TeleporterEnemy : MonoBehaviour
             position.y *= -1;
         }
         transform.position = position;
-        teleportTimer = 5f;
+        teleportTimer = maxTeleportTime;
     }
 
     private void LateUpdate()

@@ -18,6 +18,13 @@ public class FlyingEnemy : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         dirX = -1f;
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        if(Wave_Spawner.nextWave > 0)
+        {
+            float multiplier = ((Wave_Spawner.nextWave * 5.0f) / 100.0f) + 1.0f;
+            //Debug.Log("Multiplier is: " + multiplier.ToString("n2"));
+            moveSpeed = moveSpeed * multiplier;
+            Debug.Log("Movement speed is: " + moveSpeed);
+        }
     }
 
     // Update is called once per frame
@@ -56,5 +63,41 @@ public class FlyingEnemy : MonoBehaviour
         }
 
         transform.localScale = localScale;
+    }
+
+    // void OnTriggerEnter2D(Collider2D collision)
+    // {
+    //     switch (collision.tag)
+    //     {
+    //         case "Player":
+    //             //Debug.Log("player hit");
+    //             //Player_controller.healthPoints--;
+    //             Player_controller.takeDamage();
+    //             break;
+    //     }
+    // }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        switch (collision.gameObject.tag)
+        {
+            case "Player":
+                //Debug.Log("player hit");
+                //Player_controller.healthPoints--;
+                Player_controller.takeDamage();
+                break;
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        switch (collision.gameObject.tag)
+        {
+            case "Player":
+                //Debug.Log("player hit");
+                //Player_controller.healthPoints--;
+                Player_controller.takeDamage();
+                break;
+        }
     }
 }

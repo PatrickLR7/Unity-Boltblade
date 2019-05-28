@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class Wave_Spawner : MonoBehaviour
 {
     public enum SpawnState { SPAWNING, WAITING, COUNTING }
@@ -26,7 +27,7 @@ public class Wave_Spawner : MonoBehaviour
     public Transform eye, bat, skeleton;
     private Wave[] waves;
     private string[] msg;
-    private int nextWave = 0;
+    public static int nextWave;
     private const int totalWaves = 5;
 
     public Transform[] spawnPoints;
@@ -39,14 +40,19 @@ public class Wave_Spawner : MonoBehaviour
 
     private float searchCountdown = 1f;
 
+    public AudioClip levelUp, victory;
+    public AudioSource audioSource;
+
     // Start is called before the first frame update
     void Start()
     {
+        nextWave = 0;
         if (spawnPoints.Length == 0)
         {
             Debug.LogError("No spawn points referenced");
         }
         waveCountdown = timeBetweenWaves;
+        audioSource = GetComponent<AudioSource>();
         DecideWaves();
     }
 
@@ -224,11 +230,14 @@ public class Wave_Spawner : MonoBehaviour
             if (nextWave + 1 == totalWaves)
             {
                 //nextWave = 0;
+                audioSource.PlayOneShot(victory, 0.55F);
+                
                 nextWave++;
                 Debug.Log("All waves completed");
             }
             else
             {
+                audioSource.PlayOneShot(levelUp, 0.55F);
                 nextWave++;
             }
         }
