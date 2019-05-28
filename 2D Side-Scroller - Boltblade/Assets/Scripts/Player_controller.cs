@@ -24,7 +24,10 @@ public class Player_controller : MonoBehaviour
     public Animator playerAnim;
     public float attackRange;
     public int damage;
-    public GameObject especialAttack;
+    public ParticleSystem especialAttack;
+    private float timeBtwEspecial;
+    public float startTimeBtwEspecial;
+    public float attackDuration;
 
     // Start is called before the first frame update
     void Start()
@@ -33,6 +36,8 @@ public class Player_controller : MonoBehaviour
         playerRB2D = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         playerAnim = GetComponent<Animator>();
+        especialAttack.Stop();
+        timeBtwEspecial = 0;
     }
 
     // Update is called once per frame
@@ -68,10 +73,27 @@ public class Player_controller : MonoBehaviour
         }
 
         //Special Attack
-        if (Input.GetKey("e"))
-        {
-            Instantiate(especialAttack, attackPos.transform.position, Quaternion.identity);
-        }
+
+            if (timeBtwEspecial <= 0)
+            {
+                if (Input.GetKey("e"))
+                {
+                    attackDuration = 2;
+                    especialAttack.Play();
+                    timeBtwEspecial = startTimeBtwEspecial;
+                }
+                
+            }
+            else {
+                timeBtwEspecial -= Time.deltaTime;
+                attackDuration -= Time.deltaTime;
+            }
+
+            if (attackDuration <= 0) {
+                especialAttack.Stop();
+            }
+            
+        
     }
 
 
