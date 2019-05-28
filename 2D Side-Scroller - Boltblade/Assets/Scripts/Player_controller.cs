@@ -14,7 +14,7 @@ public class Player_controller : MonoBehaviour
     private Animator anim;
     public bool grounded;
     public bool facingRight = true;
-    public static int healthPoints;
+    public int healthPoints;
     public static bool canTakeDamage = true;
     public static float timeInvincible = 2f;
     private float timeBtwAttack;
@@ -29,6 +29,15 @@ public class Player_controller : MonoBehaviour
     public float startTimeBtwEspecial;
     public float attackDuration;
 
+
+    public GameObject blood;
+    private float dazedTime;
+    public float startDazedTime;
+    public float flashTime;
+    Color origionalColor;
+    [HideInInspector] [SerializeField] new Renderer renderer;
+     
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,6 +47,13 @@ public class Player_controller : MonoBehaviour
         playerAnim = GetComponent<Animator>();
         especialAttack.Stop();
         timeBtwEspecial = 0;
+        renderer = GetComponent<SpriteRenderer>();
+        origionalColor = renderer.material.color;
+
+        startDazedTime = 0.6f;
+        flashTime = 1;
+        
+
     }
 
     // Update is called once per frame
@@ -92,8 +108,9 @@ public class Player_controller : MonoBehaviour
             if (attackDuration <= 0) {
                 especialAttack.Stop();
             }
-            
+
         
+
     }
 
 
@@ -145,37 +162,62 @@ public class Player_controller : MonoBehaviour
             }
         }
 
-        if(healthPoints <= 0)
+        if (healthPoints == 0)
         {
-            SceneManager.LoadScene(3);
+            //Destroy(gameObject);
+            Instantiate(blood, transform.position, Quaternion.identity);
         }
 
-        if(!canTakeDamage)
+        if (!canTakeDamage)
         {
             timeInvincible -= Time.deltaTime;
         }
         if(timeInvincible <= 0)
         {
             canTakeDamage = true;
+            if (healthPoints <= 0)
+            {
+
+                SceneManager.LoadScene(3);
+            }
+            
         }
     }
 
     void Flip() {
         facingRight = !facingRight;
         transform.Rotate(Vector3.up * 180);
+
     }
 
-    public static void takeDamage()
+    public void takeDamage()
     {
         if(canTakeDamage)
         {
             Debug.Log("HP left:" + --healthPoints);
             canTakeDamage = false;
             timeInvincible = 2f;
+            
+            dazedTime = startDazedTime;
+            FlashRed();
         }
         // else
         // {
         //     Debug.Log("Can't take damage yet");
         // }
     }
+
+
+
+    void FlashRed()
+    {
+        renderer.material.color = Color.red;
+        Invoke("ResetColor", flashTime);
+    }
+
+    void ResetColor()
+    {
+        renderer.material.color = origionalColor;
+    }
+
 }

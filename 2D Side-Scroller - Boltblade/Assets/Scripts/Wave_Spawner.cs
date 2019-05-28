@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(AudioSource))]
 public class Wave_Spawner : MonoBehaviour
@@ -234,6 +235,8 @@ public class Wave_Spawner : MonoBehaviour
                 
                 nextWave++;
                 Debug.Log("All waves completed");
+                SceneManager.LoadScene("SampleScene");
+                SceneManager.SetActiveScene(SceneManager.GetSceneByName("SampleScene"));
             }
             else
             {

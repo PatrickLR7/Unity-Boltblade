@@ -15,6 +15,7 @@ public class GroundEnemy : MonoBehaviour
     public float jumpForce;
     public float jumpTime;
     public LayerMask groundLayer;
+    public GameObject player;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +25,7 @@ public class GroundEnemy : MonoBehaviour
         dirX = -1f;
         jumpTime = Time.time + UnityEngine.Random.Range( 1.0f, 2.0f );;
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        player = GameObject.FindGameObjectWithTag("Player");
         jumpForce = 250f;
         if(Wave_Spawner.nextWave > 0)
         {
@@ -93,7 +95,7 @@ public class GroundEnemy : MonoBehaviour
             case "Player":
                 //Debug.Log("player hit");
                 //Player_controller.healthPoints--;
-                Player_controller.takeDamage();
+                player.GetComponentInParent<Player_controller>().takeDamage();
                 break;
         }
     }
@@ -118,7 +120,7 @@ public class GroundEnemy : MonoBehaviour
             case "Player":
                 //Debug.Log("player hit");
                 //Player_controller.healthPoints--;
-                Player_controller.takeDamage();
+                player.GetComponentInParent<Player_controller>().takeDamage();
                 break;
         }
     }

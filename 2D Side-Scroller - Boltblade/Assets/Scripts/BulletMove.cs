@@ -8,7 +8,7 @@ public class BulletMove : MonoBehaviour
     public Rigidbody2D rb;
     public Transform target;
     public Vector2 direction;
-    public Player player;
+    public GameObject player;
 
     // Start is called before the first frame update
     void Start()
@@ -17,6 +17,7 @@ public class BulletMove : MonoBehaviour
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         direction = (target.transform.position - transform.position).normalized * speed;
         rb.velocity = new Vector2(direction.x, direction.y);
+        player = GameObject.FindGameObjectWithTag("Player");
         Destroy(gameObject,5f);
     }
 
@@ -27,7 +28,7 @@ public class BulletMove : MonoBehaviour
             case "Player":
                 //Debug.Log("player hit");
                 //Player_controller.healthPoints--;
-                Player_controller.takeDamage();
+                player.GetComponentInParent<Player_controller>().takeDamage();
                 Destroy(gameObject);
                 break;
         }

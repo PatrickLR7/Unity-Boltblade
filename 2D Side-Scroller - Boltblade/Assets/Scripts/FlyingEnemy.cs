@@ -10,6 +10,7 @@ public class FlyingEnemy : MonoBehaviour
     public Vector3 localScale;
     public Transform target;
     public bool facingRight = false;
+    public GameObject player;
 
     // Start is called before the first frame update
     void Start()
@@ -18,7 +19,8 @@ public class FlyingEnemy : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         dirX = -1f;
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-        if(Wave_Spawner.nextWave > 0)
+        player = GameObject.FindGameObjectWithTag("Player");
+        if (Wave_Spawner.nextWave > 0)
         {
             float multiplier = ((Wave_Spawner.nextWave * 5.0f) / 100.0f) + 1.0f;
             //Debug.Log("Multiplier is: " + multiplier.ToString("n2"));
@@ -84,7 +86,7 @@ public class FlyingEnemy : MonoBehaviour
             case "Player":
                 //Debug.Log("player hit");
                 //Player_controller.healthPoints--;
-                Player_controller.takeDamage();
+                player.GetComponentInParent<Player_controller>().takeDamage();
                 break;
         }
     }
@@ -96,7 +98,7 @@ public class FlyingEnemy : MonoBehaviour
             case "Player":
                 //Debug.Log("player hit");
                 //Player_controller.healthPoints--;
-                Player_controller.takeDamage();
+                player.GetComponentInParent<Player_controller>().takeDamage();
                 break;
         }
     }
