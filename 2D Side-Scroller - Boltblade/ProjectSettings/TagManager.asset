@@ -13,6 +13,7 @@ TagManager:
   - Shot
   - FxTemporaire
   - Music
+  - Boss
   layers:
   - Default
   - TransparentFX
