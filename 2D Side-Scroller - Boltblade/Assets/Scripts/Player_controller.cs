@@ -29,7 +29,6 @@ public class Player_controller : MonoBehaviour
     public float startTimeBtwEspecial;
     public float attackDuration;
 
-
     public GameObject blood;
     private float dazedTime;
     public float startDazedTime;
@@ -53,7 +52,6 @@ public class Player_controller : MonoBehaviour
         startDazedTime = 0.6f;
         flashTime = 1;
         
-
     }
 
     // Update is called once per frame
@@ -109,19 +107,13 @@ public class Player_controller : MonoBehaviour
                 especialAttack.Stop();
             }
 
-        
-
     }
-
 
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackPos.position, attackRange);
     }
-
-
-
 
     //Should always be used for physics calculations.
     private void FixedUpdate()
@@ -187,7 +179,6 @@ public class Player_controller : MonoBehaviour
     void Flip() {
         facingRight = !facingRight;
         transform.Rotate(Vector3.up * 180);
-
     }
 
     public void takeDamage()
