@@ -40,7 +40,6 @@ public class Player_controller : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        healthPoints = 5;
         playerRB2D = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         playerAnim = GetComponent<Animator>();
