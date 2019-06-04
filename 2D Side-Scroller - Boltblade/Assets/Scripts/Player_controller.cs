@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Player_controller : MonoBehaviour
 {
@@ -35,7 +36,9 @@ public class Player_controller : MonoBehaviour
     public float flashTime;
     Color origionalColor;
     [HideInInspector] [SerializeField] new Renderer renderer;
-     
+
+    public Text livesText;
+    public Image specialAttackImage;
 
     // Start is called before the first frame update
     void Start()
@@ -50,7 +53,9 @@ public class Player_controller : MonoBehaviour
 
         startDazedTime = 0.6f;
         flashTime = 1;
-        
+
+        livesText.text = healthPoints.ToString();
+        specialAttackImage.GetComponent<Image>().color = new Color32(255, 255, 225, 225);
     }
 
     // Update is called once per frame
@@ -89,18 +94,23 @@ public class Player_controller : MonoBehaviour
 
             if (timeBtwEspecial <= 0)
             {
+
+                specialAttackImage.GetComponent<Image>().color = new Color32(255, 255, 225, 225);
+
                 if (Input.GetKey("e"))
                 {
                     attackDuration = 2;
                     especialAttack.Play();
                     timeBtwEspecial = startTimeBtwEspecial;
+                    
                 }
                 
             }
             else {
                 timeBtwEspecial -= Time.deltaTime;
                 attackDuration -= Time.deltaTime;
-            }
+                specialAttackImage.GetComponent<Image>().color = new Color32(255, 255, 225, 100);
+                }
 
             if (attackDuration <= 0) {
                 especialAttack.Stop();
@@ -190,6 +200,8 @@ public class Player_controller : MonoBehaviour
             
             dazedTime = startDazedTime;
             FlashRed();
+
+            livesText.text = healthPoints.ToString();
         }
         // else
         // {
