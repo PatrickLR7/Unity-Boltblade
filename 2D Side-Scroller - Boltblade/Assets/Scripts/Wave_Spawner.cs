@@ -28,12 +28,13 @@ public class Wave_Spawner : MonoBehaviour
     public Transform eye, bat, skeleton;
     private Wave[] waves;
     private string[] msg;
+    public static int currentLevel;
     public static int nextWave;
-    private const int totalWaves = 5;
+    private int totalWaves;
 
     public Transform[] spawnPoints;
 
-    public float timeBetweenWaves = 5f;
+    public float timeBetweenWaves;
     private float waveCountdown;
 
     public SpawnState state = SpawnState.COUNTING;
@@ -48,12 +49,24 @@ public class Wave_Spawner : MonoBehaviour
     void Start()
     {
         nextWave = 0;
+        Debug.Log("Level is: " + currentLevel);
+
         if (spawnPoints.Length == 0)
         {
             Debug.LogError("No spawn points referenced");
         }
+
+        if(currentLevel == 1)
+        {
+            timeBetweenWaves = 5f;
+            totalWaves = 5;
+        }
+        else //Level 2
+        {
+            timeBetweenWaves = 4f;
+            totalWaves = 6;
+        }
         waveCountdown = timeBetweenWaves;
-        //audioSource = GetComponent<AudioSource>();
         DecideWaves();
     }
 
@@ -232,17 +245,35 @@ public class Wave_Spawner : MonoBehaviour
             {
                 //nextWave = 0;
                 audioSource.PlayOneShot(victory, 0.55F);
-                
                 nextWave++;
                 Debug.Log("All waves completed");
-                SceneManager.LoadScene(0); //Para ir del nivel 1 al 2
-                //SceneManager.LoadScene("Escena el jefe final");
+                NextLevel();
             }
             else
             {
                 audioSource.PlayOneShot(levelUp, 0.55F);
                 nextWave++;
             }
+        }
+
+        void NextLevel()
+        {
+            float delay = 3;
+            if(currentLevel == 1)
+            {
+                currentLevel = 2;
+                StartCoroutine(LoadAfterDelay(delay, 0));
+            }
+            else
+            {
+                StartCoroutine(LoadAfterDelay(delay, 4));
+            }
+        }
+
+        IEnumerator LoadAfterDelay(float delay, int newLevel)
+        {
+            yield return new WaitForSeconds(delay);
+            SceneManager.LoadScene(newLevel);
         }
 
         bool EnemyIsAlive()

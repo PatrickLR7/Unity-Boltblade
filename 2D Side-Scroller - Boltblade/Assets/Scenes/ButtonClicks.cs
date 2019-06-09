@@ -19,6 +19,7 @@ public class ButtonClicks : MonoBehaviour
 
     public void PlayGame()
     {
+        Wave_Spawner.currentLevel = 1;
         SceneManager.LoadScene(1);
     }
 
