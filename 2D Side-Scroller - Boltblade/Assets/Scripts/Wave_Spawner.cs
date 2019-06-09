@@ -53,7 +53,7 @@ public class Wave_Spawner : MonoBehaviour
             Debug.LogError("No spawn points referenced");
         }
         waveCountdown = timeBetweenWaves;
-        audioSource = GetComponent<AudioSource>();
+        //audioSource = GetComponent<AudioSource>();
         DecideWaves();
     }
 
@@ -235,8 +235,8 @@ public class Wave_Spawner : MonoBehaviour
                 
                 nextWave++;
                 Debug.Log("All waves completed");
-                SceneManager.LoadScene("SampleScene");
-                SceneManager.SetActiveScene(SceneManager.GetSceneByName("SampleScene"));
+                SceneManager.LoadScene(0); //Para ir del nivel 1 al 2
+                //SceneManager.LoadScene("Escena el jefe final");
             }
             else
             {
