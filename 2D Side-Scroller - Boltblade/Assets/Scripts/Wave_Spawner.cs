@@ -4,16 +4,13 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(AudioSource))]
-public class Wave_Spawner : MonoBehaviour
-{
+public class Wave_Spawner : MonoBehaviour{
     public enum SpawnState { SPAWNING, WAITING, COUNTING }
     public enum LastEnemy { NONE, EYE, BAT, SKELETON }
 
     [System.Serializable]
-    public class Wave
-    {
-        public Wave(string name, Transform enemy, int count, float rate)
-        {
+    public class Wave{
+        public Wave(string name, Transform enemy, int count, float rate){
             this.name = name;
             this.enemy = enemy;
             this.count = count;
@@ -24,45 +21,33 @@ public class Wave_Spawner : MonoBehaviour
         public int count;
         public float rate;
     }
-
     public Transform eye, bat, skeleton;
     private Wave[] waves;
     private string[] msg;
     public static int currentLevel;
     public static int nextWave;
     private int totalWaves;
-
     public Transform[] spawnPoints;
-
     public float timeBetweenWaves;
     private float waveCountdown;
-
     public SpawnState state = SpawnState.COUNTING;
     private LastEnemy lastSpawned = LastEnemy.NONE;
-
     private float searchCountdown = 1f;
-
     public AudioClip levelUp, victory;
     public AudioSource audioSource;
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start(){
         nextWave = 0;
         Debug.Log("Level is: " + currentLevel);
-
-        if (spawnPoints.Length == 0)
-        {
+        if (spawnPoints.Length == 0){
             Debug.LogError("No spawn points referenced");
         }
-
-        if(currentLevel == 1)
-        {
+        if(currentLevel == 1){
             timeBetweenWaves = 5f;
             totalWaves = 5;
         }
-        else //Level 2
-        {
+        else {//Level 2
             timeBetweenWaves = 4f;
             totalWaves = 6;
         }
@@ -70,16 +55,12 @@ public class Wave_Spawner : MonoBehaviour
         DecideWaves();
     }
 
-    void DecideWaves()
-    {
+    void DecideWaves(){
         waves = new Wave[totalWaves];
         msg = new string[totalWaves];
-
         string m = "";
-        for (int i = 0; i < totalWaves; i++)
-        {
-            switch (lastSpawned)
-            {
+        for (int i = 0; i < totalWaves; i++){
+            switch (lastSpawned){
                 case LastEnemy.NONE:
                     (lastSpawned, m) = DecideFromNone();
                     break;
@@ -98,11 +79,9 @@ public class Wave_Spawner : MonoBehaviour
         }
     }
 
-    (LastEnemy, string) DecideFromNone()
-    {
+    (LastEnemy, string) DecideFromNone(){
         int randomNumber = Random.Range(0, 10);
-        switch (randomNumber)
-        {
+        switch (randomNumber){
             case 0:
             case 1:
             case 2:
@@ -121,11 +100,9 @@ public class Wave_Spawner : MonoBehaviour
         }
     }
 
-    (LastEnemy, string) DecideFromEye()
-    {
+    (LastEnemy, string) DecideFromEye(){
         int randomNumber = Random.Range(0, 10);
-        switch (randomNumber)
-        {
+        switch (randomNumber){
             case 0:
             case 1:
             case 2:
@@ -144,11 +121,9 @@ public class Wave_Spawner : MonoBehaviour
         }
     }
 
-    (LastEnemy, string) DecideFromBat()
-    {
+    (LastEnemy, string) DecideFromBat(){
         int randomNumber = Random.Range(0, 10);
-        switch (randomNumber)
-        {
+        switch (randomNumber){
             case 0:
             case 1:
             case 2:
@@ -167,11 +142,9 @@ public class Wave_Spawner : MonoBehaviour
         }
     }
 
-    (LastEnemy, string) DecideFromSkeleton()
-    {
+    (LastEnemy, string) DecideFromSkeleton(){
         int randomNumber = Random.Range(0, 10);
-        switch (randomNumber)
-        {
+        switch (randomNumber){
             case 0:
             case 1:
             case 2:
@@ -190,13 +163,11 @@ public class Wave_Spawner : MonoBehaviour
         }
     }
 
-    void AddWave(int position, LastEnemy lastEnemy)
-    {
+    void AddWave(int position, LastEnemy lastEnemy){
         Wave wave1 = new Wave("Eye Sight", eye, 3, 0.8f);
         Wave wave2 = new Wave("Blood Hunt", bat, 5, 0.7f);
         Wave wave3 = new Wave("Bad to the bone", skeleton, 4, 0.9f);
-        switch (lastEnemy)
-        {
+        switch (lastEnemy){
             case LastEnemy.EYE:
                 waves[position] = wave1;
                 break;
@@ -210,77 +181,61 @@ public class Wave_Spawner : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (state == SpawnState.WAITING)
-        {
-            if (!EnemyIsAlive())
-            {
+    void Update(){
+        if (state == SpawnState.WAITING){
+            if (!EnemyIsAlive()){
                 WaveCompleted();
             }
-            else
-            {
+            else{
                 return;
             }
         }
 
-        if (waveCountdown <= 0)
-        {
-            if (state != SpawnState.SPAWNING && nextWave < totalWaves)
-            {
+        if (waveCountdown <= 0){
+            if (state != SpawnState.SPAWNING && nextWave < totalWaves){
                 StartCoroutine(SpawnWave(waves[nextWave]));
             }
         }
-        else
-        {
+        else{
             waveCountdown -= Time.deltaTime;
         }
 
-        void WaveCompleted()
-        {
+        void WaveCompleted(){
             Debug.Log("Wave completed");
             state = SpawnState.COUNTING;
             waveCountdown = timeBetweenWaves;
-            if (nextWave + 1 == totalWaves)
-            {
+            if (nextWave + 1 == totalWaves) {
                 //nextWave = 0;
                 audioSource.PlayOneShot(victory, 0.55F);
                 nextWave++;
                 Debug.Log("All waves completed");
                 NextLevel();
             }
-            else
-            {
+            else{
                 audioSource.PlayOneShot(levelUp, 0.55F);
                 nextWave++;
             }
         }
 
-        void NextLevel()
-        {
+        void NextLevel(){
             float delay = 3;
-            if(currentLevel == 1)
-            {
+            if(currentLevel == 1){
                 currentLevel = 2;
                 StartCoroutine(LoadAfterDelay(delay, 0));
             }
-            else
-            {
+            else{
                 StartCoroutine(LoadAfterDelay(delay, 4));
             }
         }
 
-        IEnumerator LoadAfterDelay(float delay, int newLevel)
-        {
+        IEnumerator LoadAfterDelay(float delay, int newLevel){
             yield return new WaitForSeconds(delay);
             SceneManager.LoadScene(newLevel);
         }
 
-        bool EnemyIsAlive()
-        {
+        bool EnemyIsAlive(){
             searchCountdown -= Time.deltaTime;
-            if (searchCountdown <= 0f)
-            {
+            if (searchCountdown <= 0f){
                 searchCountdown = 1f;
                 if (GameObject.FindGameObjectWithTag("Bat") == null &&
                     GameObject.FindGameObjectWithTag("Eye") == null &&
@@ -292,8 +247,7 @@ public class Wave_Spawner : MonoBehaviour
             return true;
         }
 
-        IEnumerator SpawnWave(Wave _wave)
-        {
+        IEnumerator SpawnWave(Wave _wave){
             Debug.Log(msg[nextWave]);
             state = SpawnState.SPAWNING;
 
@@ -307,8 +261,7 @@ public class Wave_Spawner : MonoBehaviour
             yield break;
         }
 
-        void SpawnEnemy(Transform _enemy)
-        {
+        void SpawnEnemy(Transform _enemy){
             //Debug.Log("Spawning enemy " + _enemy.name);
             Transform _sp = spawnPoints[Random.Range(0, spawnPoints.Length)];
             //Instantiate(_enemy, transform.position, transform.rotation);

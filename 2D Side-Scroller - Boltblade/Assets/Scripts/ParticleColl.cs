@@ -2,25 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ParticleColl : MonoBehaviour
-{
+public class ParticleColl : MonoBehaviour{
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start(){
 
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update(){
         
     }
 
-    private void OnParticleCollision(GameObject other)
-    {
+    private void OnParticleCollision(GameObject other){
         Debug.Log("Particle hit!");
         if (other.layer == 8) {
-            other.GetComponent<EnemyDeath>().takeDamage(300);
+            if(other.tag.Equals("Boss")){
+                other.GetComponent<EnemyDeath>().takeDamage(10);
+            } else {
+                other.GetComponent<EnemyDeath>().takeDamage(300);
+            }
+            
         }
 
     }

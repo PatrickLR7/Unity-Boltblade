@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletMove : MonoBehaviour
-{
+public class BulletMove : MonoBehaviour{
     public float speed = 4f;
     public Rigidbody2D rb;
     public Transform target;
@@ -11,8 +10,7 @@ public class BulletMove : MonoBehaviour
     public GameObject player;
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start(){
         rb = GetComponent<Rigidbody2D>();
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         direction = (target.transform.position - transform.position).normalized * speed;
@@ -21,15 +19,11 @@ public class BulletMove : MonoBehaviour
         Destroy(gameObject,5f);
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-        switch (collision.tag)
-        {
+    void OnTriggerEnter2D(Collider2D collision){
+        switch (collision.tag){
             case "Player":
-                //Debug.Log("player hit");
-                //Player_controller.healthPoints--;
                 player.GetComponentInParent<Player_controller>().takeDamage();
-                Destroy(gameObject);
+                Destroy(this.gameObject);
                 break;
         }
     }
