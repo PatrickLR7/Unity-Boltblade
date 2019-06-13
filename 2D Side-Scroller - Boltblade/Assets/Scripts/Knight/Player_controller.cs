@@ -125,10 +125,12 @@ public class Player_controller : MonoBehaviour{
             Instantiate(blood, transform.position, Quaternion.identity);
         }
 
-        if (!canTakeDamage){
+        if (!canTakeDamage)
+        {
             timeInvincible -= Time.deltaTime;
         }
-        if(timeInvincible <= 0){
+        if(timeInvincible <= 0)
+        {
             canTakeDamage = true;
             if (healthPoints <= 0){
                 SceneManager.LoadScene(3);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(AudioSource))]
 public class Wave_Spawner : MonoBehaviour{
@@ -35,10 +36,13 @@ public class Wave_Spawner : MonoBehaviour{
     private float searchCountdown = 1f;
     public AudioClip levelUp, victory;
     public AudioSource audioSource;
+    public Text waveText;
+    public Text nextWaveCount;    
 
     // Start is called before the first frame update
     void Start(){
         nextWave = 0;
+        waveText.text = "First wave soon";
         Debug.Log("Level is: " + currentLevel);
         if (spawnPoints.Length == 0){
             Debug.LogError("No spawn points referenced");
@@ -193,11 +197,16 @@ public class Wave_Spawner : MonoBehaviour{
 
         if (waveCountdown <= 0){
             if (state != SpawnState.SPAWNING && nextWave < totalWaves){
+                nextWaveCount.text = "";
                 StartCoroutine(SpawnWave(waves[nextWave]));
             }
         }
         else{
             waveCountdown -= Time.deltaTime;
+            if (nextWave != totalWaves)
+            {
+                nextWaveCount.text = "Next wave: " + waveCountdown.ToString().Substring(0, 4);
+            }
         }
 
         void WaveCompleted(){
@@ -250,6 +259,8 @@ public class Wave_Spawner : MonoBehaviour{
         IEnumerator SpawnWave(Wave _wave){
             Debug.Log(msg[nextWave]);
             state = SpawnState.SPAWNING;
+            int waveNumber = nextWave + 1;
+            waveText.text = "Wave " + waveNumber + "/" + totalWaves;
 
             for (int i = 0; i < _wave.count; i++)
             {

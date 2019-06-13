@@ -15,6 +15,8 @@ public class EnemyDeath : MonoBehaviour{
     public float flashTime;
     Color origionalColor;
     [HideInInspector][SerializeField] new Renderer renderer;
+    public bool bossCanTakeDamage = true;
+    public float bossTimeInvincible = 1f;
 
     // Start is called before the first frame update
     void Start(){
@@ -63,11 +65,37 @@ public class EnemyDeath : MonoBehaviour{
         }
     }
 
+    void FixedUpdate()
+        {
+            if (!bossCanTakeDamage)
+            {
+                bossTimeInvincible -= Time.deltaTime;
+            }
+            if(bossTimeInvincible <= 0)
+            {
+                bossCanTakeDamage = true;
+            }
+        }
+
     //Enemy receives damage when the player attacks
     public void takeDamage(int damage){
         dazedTime = startDazedTime;
         FlashRed();
-        health = health - damage;
+        if (this.tag == "Boss")
+        {
+            if(bossCanTakeDamage)
+            {
+                Debug.Log("Boss took damage");
+                health = health - damage;
+                Debug.Log("Boss health left: " + health);
+                bossCanTakeDamage = false;
+                bossTimeInvincible = 1f;
+            }
+        }
+        else
+        {
+            health = health - damage;
+        }
     }
 
     void FlashRed(){

@@ -23,7 +23,6 @@ public class BossEnemy : MonoBehaviour{
     public Vector2 teleportSpot2;
     public bool teleported;
 
-    // Start is called before the first frame update
     void Start(){
         localScale = transform.localScale;
         rb = GetComponent<Rigidbody2D>();
@@ -66,7 +65,8 @@ public class BossEnemy : MonoBehaviour{
         }
     }
 
-    void FixedUpdate(){
+    void FixedUpdate()
+    {
         moveIdle(currentPosition.position);
     }
 

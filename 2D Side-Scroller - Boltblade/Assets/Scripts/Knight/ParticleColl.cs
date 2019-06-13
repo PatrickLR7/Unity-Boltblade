@@ -14,7 +14,6 @@ public class ParticleColl : MonoBehaviour{
     }
 
     private void OnParticleCollision(GameObject other){
-        Debug.Log("Particle hit!");
         if (other.layer == 8) {
             if(other.tag.Equals("Boss")){
                 other.GetComponent<EnemyDeath>().takeDamage(10);
