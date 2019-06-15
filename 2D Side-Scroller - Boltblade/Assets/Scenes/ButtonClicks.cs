@@ -31,6 +31,6 @@ public class ButtonClicks : MonoBehaviour
 
     public void GoToMenu()
     {
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(0);
     }
 }

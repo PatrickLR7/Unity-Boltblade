@@ -672,11 +672,6 @@ PrefabInstance:
       propertyPath: specialAttackImage
       value: 
       objectReference: {fileID: 2052356713}
-    - target: {fileID: 698136949318603791, guid: 976ca4030b47a8a46a5bd6e23230c6e4,
-        type: 3}
-      propertyPath: healthPoints
-      value: 20
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 976ca4030b47a8a46a5bd6e23230c6e4, type: 3}
 --- !u!1001 &8865461456483867783

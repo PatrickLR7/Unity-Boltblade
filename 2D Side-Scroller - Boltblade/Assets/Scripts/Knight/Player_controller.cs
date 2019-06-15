@@ -36,6 +36,7 @@ public class Player_controller : MonoBehaviour{
     [HideInInspector] [SerializeField] new Renderer renderer;
     public Text livesText;
     public Image specialAttackImage;
+    public ParticleSystem slash;
 
     // Start is called before the first frame update
     void Start(){
@@ -50,6 +51,7 @@ public class Player_controller : MonoBehaviour{
         flashTime = 1;
         livesText.text = healthPoints.ToString();
         specialAttackImage.GetComponent<Image>().color = new Color32(255, 255, 225, 225);
+        slash.Stop();
     }
 
     // Update is called once per frame
@@ -60,6 +62,7 @@ public class Player_controller : MonoBehaviour{
         if (timeBtwAttack <= 0){
             if (Input.GetKey("q") || Input.GetMouseButtonDown(0)){
                 playerAnim.SetTrigger("attack2");
+                slash.Play();
                 Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(attackPos.position, attackRange, whatIsEnemies);
                 for (int i = 0; i < enemiesToDamage.Length; i++){
                     if (enemiesToDamage[i].gameObject.name.Equals("EnemyCollider")){
@@ -74,6 +77,7 @@ public class Player_controller : MonoBehaviour{
         }
         else{
             timeBtwAttack -= Time.deltaTime;
+            slash.Stop();
         }
         //Special Attack
         if (timeBtwEspecial <= 0){

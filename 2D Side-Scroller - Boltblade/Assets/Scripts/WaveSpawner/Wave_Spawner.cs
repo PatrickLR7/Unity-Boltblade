@@ -230,7 +230,7 @@ public class Wave_Spawner : MonoBehaviour{
             float delay = 3;
             if(currentLevel == 1){
                 currentLevel = 2;
-                StartCoroutine(LoadAfterDelay(delay, 0));
+                StartCoroutine(LoadAfterDelay(delay, 2));
             }
             else{
                 StartCoroutine(LoadAfterDelay(delay, 4));

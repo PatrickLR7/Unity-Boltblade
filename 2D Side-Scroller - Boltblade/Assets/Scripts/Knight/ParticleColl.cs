@@ -16,9 +16,9 @@ public class ParticleColl : MonoBehaviour{
     private void OnParticleCollision(GameObject other){
         if (other.layer == 8) {
             if(other.tag.Equals("Boss")){
-                other.GetComponent<EnemyDeath>().takeDamage(10);
+                other.GetComponent<EnemyDeath>().takeDamage(125);
             } else {
-                other.GetComponent<EnemyDeath>().takeDamage(300);
+                other.GetComponent<EnemyDeath>().takeDamage(200);
             }
             
         }
