@@ -27,4 +27,5 @@ public class BulletMove : MonoBehaviour{
                 break;
         }
     }
+
 }

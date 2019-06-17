@@ -67,8 +67,11 @@ public class Player_controller : MonoBehaviour{
                 for (int i = 0; i < enemiesToDamage.Length; i++){
                     if (enemiesToDamage[i].gameObject.name.Equals("EnemyCollider")){
                         enemiesToDamage[i].GetComponentInParent<EnemyDeath>().takeDamage(damage);
+                    } else if (enemiesToDamage[i].gameObject.tag.Equals("Shot")){
+                        Destroy(enemiesToDamage[i].gameObject);
                     }
                     else{
+                        Debug.Log(enemiesToDamage[i]);
                         enemiesToDamage[i].GetComponent<EnemyDeath>().takeDamage(damage);
                     }
                 }
@@ -83,7 +86,7 @@ public class Player_controller : MonoBehaviour{
         if (timeBtwEspecial <= 0){
             specialAttackImage.GetComponent<Image>().color = new Color32(255, 255, 225, 225);
             if (Input.GetKey("e")){
-                attackDuration = 2;
+                attackDuration = 0.5f;
                 especialAttack.Play();
                 timeBtwEspecial = startTimeBtwEspecial;
             }
@@ -107,7 +110,6 @@ public class Player_controller : MonoBehaviour{
     private void FixedUpdate(){
         //Controls Player Movement
         float h = Input.GetAxis("Horizontal");
-        //playerRB2D.AddForce(Vector2.right * speed * h);
         playerRB2D.velocity = new Vector2(maxSpeed * h, playerRB2D.velocity.y);
         if (Input.GetButton("Jump") && grounded == true){
             playerRB2D.velocity = new Vector2(0, 8);
@@ -118,7 +120,6 @@ public class Player_controller : MonoBehaviour{
             if (h > 0.1f && !facingRight) {
                 Flip(); //Rotate Right
             }
-            
         }
         if (Input.GetKey("left") || Input.GetKey("a")) {
             if (h < 0.1f && facingRight) {

@@ -3008,21 +3008,21 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4073187962021260151, guid: bf1c2e7872497da4a898e8169efc03a9,
-        type: 3}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 1494651165}
-    - target: {fileID: 8865461455928827025, guid: bf1c2e7872497da4a898e8169efc03a9,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2069621740457604942, guid: bf1c2e7872497da4a898e8169efc03a9,
         type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -11.795044
       objectReference: {fileID: 0}
+    - target: {fileID: 8865461455928827025, guid: bf1c2e7872497da4a898e8169efc03a9,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4073187962021260151, guid: bf1c2e7872497da4a898e8169efc03a9,
+        type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1494651165}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf1c2e7872497da4a898e8169efc03a9, type: 3}
 --- !u!114 &371980672 stripped

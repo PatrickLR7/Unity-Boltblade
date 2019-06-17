@@ -20,8 +20,6 @@ public class ParticleColl : MonoBehaviour{
             } else {
                 other.GetComponent<EnemyDeath>().takeDamage(200);
             }
-            
         }
-
     }
 }

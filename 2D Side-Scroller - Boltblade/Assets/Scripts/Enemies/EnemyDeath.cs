@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class EnemyDeath : MonoBehaviour{
 
-    public int health;
+    public float health;
     public GameObject blood;
     private float dazedTime;
     public float startDazedTime;
@@ -17,11 +17,15 @@ public class EnemyDeath : MonoBehaviour{
     [HideInInspector][SerializeField] new Renderer renderer;
     public bool bossCanTakeDamage = true;
     public float bossTimeInvincible = 1f;
+    public float bossHealth;
 
     // Start is called before the first frame update
     void Start(){
         renderer = GetComponent<SpriteRenderer>();
         origionalColor = renderer.material.color;
+        if (this.tag == "Boss"){
+            bossHealth = health;
+        }
     }
 
     // Update is called once per frame
@@ -78,7 +82,7 @@ public class EnemyDeath : MonoBehaviour{
         }
 
     //Enemy receives damage when the player attacks
-    public void takeDamage(int damage){
+    public void takeDamage(float damage){
         dazedTime = startDazedTime;
         FlashRed();
         if (this.tag == "Boss")
@@ -87,6 +91,7 @@ public class EnemyDeath : MonoBehaviour{
             {
                 Debug.Log("Boss took damage");
                 health = health - damage;
+                gameObject.GetComponent<GameHandler>().ReduceHealthBar(health/bossHealth);
                 Debug.Log("Boss health left: " + health);
                 bossCanTakeDamage = false;
                 bossTimeInvincible = 1f;

@@ -57,8 +57,6 @@ public class FlyingEnemy : MonoBehaviour{
     private void OnCollisionEnter2D(Collision2D collision){
         switch (collision.gameObject.tag){
             case "Player":
-                //Debug.Log("player hit");
-                //Player_controller.healthPoints--;
                 player.GetComponentInParent<Player_controller>().takeDamage();
                 rb.velocity = Vector2.zero;
                 break;
@@ -68,8 +66,6 @@ public class FlyingEnemy : MonoBehaviour{
     private void OnCollisionStay2D(Collision2D collision){
         switch (collision.gameObject.tag){
             case "Player":
-                //Debug.Log("player hit");
-                //Player_controller.healthPoints--;
                 player.GetComponentInParent<Player_controller>().takeDamage();
                 rb.velocity = Vector2.zero;
                 break;

@@ -22,6 +22,7 @@ public class TeleporterEnemy : MonoBehaviour{
         maxTeleportTime = 5f;
         fireRate = 2f;
         nextFire = Time.time;
+        rb = GetComponent<Rigidbody2D>();
         localScale = transform.localScale;
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         player = GameObject.FindGameObjectWithTag("Player");

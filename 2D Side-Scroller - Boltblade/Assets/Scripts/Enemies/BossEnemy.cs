@@ -22,6 +22,7 @@ public class BossEnemy : MonoBehaviour{
     public Vector2 teleportSpot1;
     public Vector2 teleportSpot2;
     public bool teleported;
+    public bool shotRotated;
 
     void Start(){
         localScale = transform.localScale;
@@ -30,12 +31,13 @@ public class BossEnemy : MonoBehaviour{
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         player = GameObject.FindGameObjectWithTag("Player");
         radius = 5f;
-        bulletMoveSpeed = 4f;
+        bulletMoveSpeed = 5f;
         teleported = false;
         teleportSpot1 = spots[1].position;
         teleportSpot2 = spots[0].position;
         transform.position = teleportSpot1;
         currentPosition = transform;
+        shotRotated = false;
     }
 
     // Update is called once per frame
@@ -48,32 +50,34 @@ public class BossEnemy : MonoBehaviour{
         else{
             timeToTeleport -= Time.deltaTime;
         }
-        if(timeToShoot <= 0)
-        {   //Shoot
+        if(timeToShoot <= 0){   //Shoot
             SpawnProjectiles(8, transform.position);
             timeToShoot = 2f;
-        }else
-        {
+        }else{
             timeToShoot -= Time.deltaTime;
         }
-        if (transform.position.x < target.position.x - 0.5)
-        {
+        if (transform.position.x < target.position.x - 0.5){
             dirX = 1f;
-        }else if (transform.position.x > target.position.x + 0.5)
-        {
+        }else if (transform.position.x > target.position.x + 0.5){
             dirX = -1f;
         }
     }
 
-    void FixedUpdate()
-    {
+    void FixedUpdate(){
         moveIdle(currentPosition.position);
     }
 
     void SpawnProjectiles(int numberOfProjectiles, Vector2 startPoint){
 		float angleStep = 360f / numberOfProjectiles;
-		float angle = 0f;
-		for (int i = 0; i <= numberOfProjectiles - 1; i++) {
+		float angle;
+        if (!shotRotated){
+            angle = 0f;
+            shotRotated = true;
+        } else {
+            angle = angleStep/2;
+            shotRotated = false;
+        }
+		for (int i = 0; i < numberOfProjectiles; i++) {
 			float projectileDirXposition = startPoint.x + Mathf.Sin ((angle * Mathf.PI) / 180) * radius;
 			float projectileDirYposition = startPoint.y + Mathf.Cos ((angle * Mathf.PI) / 180) * radius;
 			Vector2 projectileVector = new Vector2 (projectileDirXposition, projectileDirYposition);
