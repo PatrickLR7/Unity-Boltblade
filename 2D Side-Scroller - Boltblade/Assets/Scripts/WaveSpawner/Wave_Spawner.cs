@@ -170,7 +170,7 @@ public class Wave_Spawner : MonoBehaviour{
     void AddWave(int position, LastEnemy lastEnemy){
         Wave wave1 = new Wave("Eye Sight", eye, 3, 0.8f);
         Wave wave2 = new Wave("Blood Hunt", bat, 5, 0.7f);
-        Wave wave3 = new Wave("Bad to the bone", skeleton, 4, 0.9f);
+        Wave wave3 = new Wave("Bad to the bone", skeleton, 6, 0.9f);
         switch (lastEnemy){
             case LastEnemy.EYE:
                 waves[position] = wave1;
@@ -205,7 +205,7 @@ public class Wave_Spawner : MonoBehaviour{
             waveCountdown -= Time.deltaTime;
             if (nextWave != totalWaves)
             {
-                nextWaveCount.text = "Next wave: " + waveCountdown.ToString().Substring(0, 4);
+                nextWaveCount.text = "Next wave: " + (waveCountdown+1).ToString().Substring(0, 1);
             }
         }
 
