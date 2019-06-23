@@ -16,7 +16,7 @@ public class Player_controller : MonoBehaviour{
     public bool facingRight = true;
     public int healthPoints;
     public static bool canTakeDamage = true;
-    public static float timeInvincible = 2f;
+    public static float timeInvincible = 1f;
     private float timeBtwAttack;
     public float startTimeBtwAttack;
     public Transform attackPos;
@@ -69,6 +69,8 @@ public class Player_controller : MonoBehaviour{
                         enemiesToDamage[i].GetComponentInParent<EnemyDeath>().takeDamage(damage);
                     } else if (enemiesToDamage[i].gameObject.tag.Equals("Shot")){
                         Destroy(enemiesToDamage[i].gameObject);
+                    } else if (enemiesToDamage[i].gameObject.tag.Equals("Boss")){
+                        enemiesToDamage[i].GetComponent<EnemyDeath>().takeDamage(UnityEngine.Random.Range(75f, 100f));
                     }
                     else{
                         Debug.Log(enemiesToDamage[i]);
@@ -152,7 +154,7 @@ public class Player_controller : MonoBehaviour{
         if(canTakeDamage){
             Debug.Log("HP left:" + --healthPoints);
             canTakeDamage = false;
-            timeInvincible = 2f;
+            timeInvincible = 1f;
             dazedTime = startDazedTime;
             FlashRed();
             livesText.text = healthPoints.ToString();

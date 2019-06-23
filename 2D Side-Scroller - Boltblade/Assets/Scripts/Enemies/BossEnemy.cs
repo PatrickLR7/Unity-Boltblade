@@ -6,6 +6,7 @@ public class BossEnemy : MonoBehaviour{
     public float dirX;
     public float moveSpeed = 1f;
     public float timeToTeleport = 3f;
+    public float timeToAction = 3f;
     public float timeToShoot = 1.5f;
     public Rigidbody2D rb;
     public Vector3 localScale;
@@ -18,11 +19,14 @@ public class BossEnemy : MonoBehaviour{
     public Transform[] spots;
     public Transform currentPosition;
     public float radius;
+    public float beamRadius;
     public float bulletMoveSpeed;
     public Vector2 teleportSpot1;
     public Vector2 teleportSpot2;
-    public bool teleported;
+    public Vector2 teleportSpot3;
     public bool shotRotated;
+    public string currentAction;
+    public int teleportPosition;
 
     void Start(){
         localScale = transform.localScale;
@@ -31,30 +35,25 @@ public class BossEnemy : MonoBehaviour{
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         player = GameObject.FindGameObjectWithTag("Player");
         radius = 5f;
+        beamRadius = 3f;
         bulletMoveSpeed = 5f;
-        teleported = false;
-        teleportSpot1 = spots[1].position;
-        teleportSpot2 = spots[0].position;
+        teleportSpot1 = spots[0].position;
+        teleportSpot2 = spots[1].position;
+        teleportSpot3 = spots[2].position;
         transform.position = teleportSpot1;
+        teleportPosition = 1;
         currentPosition = transform;
         shotRotated = false;
+        currentAction = "Teleport";
     }
 
     // Update is called once per frame
     void Update(){
-        //Choose between 2 points to teleport
-        if(timeToTeleport <= 0){   //teleport
-            Teleport();
-            timeToTeleport = 3f;
+        if(timeToAction <= 0){
+            ChooseAction();
         }
         else{
-            timeToTeleport -= Time.deltaTime;
-        }
-        if(timeToShoot <= 0){   //Shoot
-            SpawnProjectiles(8, transform.position);
-            timeToShoot = 2f;
-        }else{
-            timeToShoot -= Time.deltaTime;
+            timeToAction -= Time.deltaTime;
         }
         if (transform.position.x < target.position.x - 0.5){
             dirX = 1f;
@@ -67,7 +66,7 @@ public class BossEnemy : MonoBehaviour{
         moveIdle(currentPosition.position);
     }
 
-    void SpawnProjectiles(int numberOfProjectiles, Vector2 startPoint){
+    void AttackRadius(int numberOfProjectiles, Vector2 startPoint){
 		float angleStep = 360f / numberOfProjectiles;
 		float angle;
         if (!shotRotated){
@@ -86,33 +85,135 @@ public class BossEnemy : MonoBehaviour{
 			proj.GetComponent<Rigidbody2D> ().velocity = new Vector2 (projectileMoveDirection.x, projectileMoveDirection.y);
 			angle += angleStep;
 		}
+        timeToAction = UnityEngine.Random.Range( 1.0f, 3.0f );
 	}
+
+    void AttackBeam(int numberOfProjectiles, Vector2 startPoint){
+        float projectileDirXposition;
+		float projectileDirYposition;
+        Vector2 projectileVector;
+		Vector2 projectileMoveDirection;
+		float angleStep = 90f / numberOfProjectiles;
+		float angle = 45f;
+        int waitingTime = 0;
+		for (int i = 0; i < numberOfProjectiles; i++) {
+			projectileDirXposition = startPoint.x + Mathf.Sin ((angle * Mathf.PI) / 180) * beamRadius;
+			projectileDirYposition = startPoint.y + Mathf.Cos ((angle * Mathf.PI) / 180) * beamRadius;
+			projectileVector = new Vector2 (projectileDirXposition, projectileDirYposition);
+			projectileMoveDirection = (projectileVector - startPoint).normalized * bulletMoveSpeed;
+            StartCoroutine ( shoot(projectileMoveDirection, startPoint, waitingTime) );
+			angle += angleStep;
+            waitingTime++;
+		}
+        for (int i = 0; i < numberOfProjectiles; i++) {
+			projectileDirXposition = startPoint.x + Mathf.Sin ((angle * Mathf.PI) / 180) * beamRadius;
+			projectileDirYposition = startPoint.y + Mathf.Cos ((angle * Mathf.PI) / 180) * beamRadius;
+			projectileVector = new Vector2 (projectileDirXposition, projectileDirYposition);
+			projectileMoveDirection = (projectileVector - startPoint).normalized * bulletMoveSpeed;
+            StartCoroutine ( shoot(projectileMoveDirection, startPoint, waitingTime) );
+			angle -= angleStep;
+            waitingTime++;
+		}
+        timeToAction = UnityEngine.Random.Range( 3.0f, 4.0f );
+	}
+
+    public IEnumerator shoot (Vector2 projectileMoveDirection, Vector2 startPoint, float waitingTime) {
+        //Wait for some time
+        yield return new WaitForSeconds (0.2f * waitingTime);
+        //Instantiate your projectile
+        var projectile = Instantiate (shot, startPoint, Quaternion.identity);
+		projectile.GetComponent<Rigidbody2D> ().velocity = new Vector2 (projectileMoveDirection.x * dirX, projectileMoveDirection.y);
+    }
+
+    public void ChooseAction(){
+        float prob = UnityEngine.Random.Range( 0f, 1.0f );
+        if (currentAction.Equals("Teleport")){
+            if(prob < 0.5){
+                Teleport();
+                currentAction = "Teleport";
+            } else if( prob >= 0.5 && prob < 0.8){
+                AttackRadius(8, transform.position);
+                currentAction = "ShotRadius";
+            } else if(prob >= 0.8){
+                AttackBeam(9, transform.position);
+                currentAction = "ShotWave";
+            }
+            Debug.Log(currentAction);
+        } else if (currentAction.Equals("ShotWave")){
+            if(prob < 0.4){
+                Teleport();
+                currentAction = "Teleport";
+            } else if( prob >= 0.4 && prob < 0.75){
+                AttackRadius(8, transform.position);
+                currentAction = "ShotRadius";
+            } else if(prob >= 0.75){
+                AttackBeam(9, transform.position);
+                currentAction = "ShotWave";
+            }
+            Debug.Log(currentAction);
+        } else if (currentAction.Equals("ShotRadius")){
+            if(prob < 0.3){
+                Teleport();
+                currentAction = "Teleport";
+            } else if( prob >= 0.3 && prob < 0.75){
+                AttackRadius(8, transform.position);
+                currentAction = "ShotRadius";
+            } else if(prob >= 0.75){
+                AttackBeam(9, transform.position);
+                currentAction = "ShotWave";
+            }
+            Debug.Log(currentAction);
+        }
+    }
 
     void moveIdle(Vector2 position){
         Vector2 newPosition;
-        newPosition.x = position.x + UnityEngine.Random.Range( 3.0f, 5.0f );
-        newPosition.y = position.y + UnityEngine.Random.Range( 3.0f, 5.0f );
+        newPosition.x = position.x + UnityEngine.Random.Range( 1.0f, 3.0f );
+        newPosition.y = position.y;
         flipX = UnityEngine.Random.Range( -1.0f, 1.0f );
-        flipY = UnityEngine.Random.Range( -1.0f, 1.0f );
         if(flipX < 0){
             newPosition.x *= -1;
-        }
-        if(flipY < 0){
-            newPosition.y *= -1;
         }
         transform.position = Vector2.MoveTowards(transform.position, newPosition, moveSpeed * Time.deltaTime);
     }
 
     public void Teleport(){
-        if(teleported){
-            transform.position = teleportSpot1;
-            currentPosition.position = teleportSpot1;
-            teleported = false;
-        } else {
-            transform.position = teleportSpot2;
-            currentPosition.position = teleportSpot2;
-            teleported = true;
+        int newPosition;
+        if (teleportPosition == 1){
+            newPosition = (int) UnityEngine.Random.Range( 0f, 2.0f );
+            if(newPosition < 1){
+                transform.position = teleportSpot2;
+                currentPosition.position = teleportSpot2;
+                teleportPosition = 2;
+            } else {
+                transform.position = teleportSpot3;
+                currentPosition.position = teleportSpot3;
+                teleportPosition = 3;
+            }
+        } else if (teleportPosition == 2){
+            newPosition = (int) UnityEngine.Random.Range( 0f, 2.0f );
+            if(newPosition < 1){
+                transform.position = teleportSpot1;
+                currentPosition.position = teleportSpot1;
+                teleportPosition = 1;
+            } else {
+                transform.position = teleportSpot3;
+                currentPosition.position = teleportSpot3;
+                teleportPosition = 3;
+            }
+        } else if (teleportPosition == 3){
+            newPosition = (int) UnityEngine.Random.Range( 0f, 2.0f );
+            if(newPosition < 1){
+                transform.position = teleportSpot1;
+                currentPosition.position = teleportSpot1;
+                teleportPosition = 1;
+            } else {
+                transform.position = teleportSpot2;
+                currentPosition.position = teleportSpot2;
+                teleportPosition = 2;
+            }
         }
+        timeToAction = UnityEngine.Random.Range( 1.0f, 2.0f );
     }
 
     private void LateUpdate(){
