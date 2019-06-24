@@ -33,4 +33,9 @@ public class ButtonClicks : MonoBehaviour
     {
         SceneManager.LoadScene(0);
     }
+
+    public void GoToInstructions()
+    {
+        SceneManager.LoadScene(6);
+    }
 }
