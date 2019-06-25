@@ -38,8 +38,11 @@ public class Player_controller : MonoBehaviour{
     public Image specialAttackImage;
     public ParticleSystem slash;
 
+    public int specialAttackPoints;
+
     // Start is called before the first frame update
     void Start(){
+
         playerRB2D = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         playerAnim = GetComponent<Animator>();
@@ -52,6 +55,8 @@ public class Player_controller : MonoBehaviour{
         livesText.text = healthPoints.ToString();
         specialAttackImage.GetComponent<Image>().color = new Color32(255, 255, 225, 225);
         slash.Stop();
+        specialAttackPoints = 0;
+
     }
 
     // Update is called once per frame
@@ -67,14 +72,18 @@ public class Player_controller : MonoBehaviour{
                 for (int i = 0; i < enemiesToDamage.Length; i++){
                     if (enemiesToDamage[i].gameObject.name.Equals("EnemyCollider")){
                         enemiesToDamage[i].GetComponentInParent<EnemyDeath>().takeDamage(damage);
+                        specialAttackPoints++;
                     } else if (enemiesToDamage[i].gameObject.tag.Equals("Shot")){
                         Destroy(enemiesToDamage[i].gameObject);
+                        specialAttackPoints++;
                     } else if (enemiesToDamage[i].gameObject.tag.Equals("Boss")){
                         enemiesToDamage[i].GetComponent<EnemyDeath>().takeDamage(UnityEngine.Random.Range(75f, 100f));
+                        specialAttackPoints++;
                     }
                     else{
                         Debug.Log(enemiesToDamage[i]);
                         enemiesToDamage[i].GetComponent<EnemyDeath>().takeDamage(damage);
+                        specialAttackPoints++;
                     }
                 }
             }
@@ -85,22 +94,48 @@ public class Player_controller : MonoBehaviour{
             slash.Stop();
         }
         //Special Attack
-        if (timeBtwEspecial <= 0){
+        /* if (timeBtwEspecial <= 0){
+             specialAttackImage.GetComponent<Image>().color = new Color32(255, 255, 225, 225);
+             if (Input.GetKey("e")){
+                 attackDuration = 0.5f;
+                 especialAttack.Play();
+                 timeBtwEspecial = startTimeBtwEspecial;
+             }
+         }
+         else {
+             timeBtwEspecial -= Time.deltaTime;
+             attackDuration -= Time.deltaTime;
+             specialAttackImage.GetComponent<Image>().color = new Color32(255, 255, 225, 100);
+         }
+         if (attackDuration <= 0) {
+             especialAttack.Stop();
+         }*/
+        if (specialAttackPoints >= 15)
+        {
             specialAttackImage.GetComponent<Image>().color = new Color32(255, 255, 225, 225);
-            if (Input.GetKey("e")){
-                attackDuration = 0.5f;
+            if (Input.GetKey("e"))
+            {
+
                 especialAttack.Play();
-                timeBtwEspecial = startTimeBtwEspecial;
+                specialAttackPoints = 0;
+                attackDuration = 0.5f;
             }
+
         }
-        else {
-            timeBtwEspecial -= Time.deltaTime;
-            attackDuration -= Time.deltaTime;
+        else
+        {
             specialAttackImage.GetComponent<Image>().color = new Color32(255, 255, 225, 100);
+            attackDuration -= Time.deltaTime;
+
         }
-        if (attackDuration <= 0) {
+
+        if (attackDuration <= 0)
+        {
             especialAttack.Stop();
+           
         }
+        
+
     }
 
     void OnDrawGizmosSelected(){
