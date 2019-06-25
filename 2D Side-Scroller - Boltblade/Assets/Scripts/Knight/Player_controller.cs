@@ -94,22 +94,7 @@ public class Player_controller : MonoBehaviour{
             slash.Stop();
         }
         //Special Attack
-        /* if (timeBtwEspecial <= 0){
-             specialAttackImage.GetComponent<Image>().color = new Color32(255, 255, 225, 225);
-             if (Input.GetKey("e")){
-                 attackDuration = 0.5f;
-                 especialAttack.Play();
-                 timeBtwEspecial = startTimeBtwEspecial;
-             }
-         }
-         else {
-             timeBtwEspecial -= Time.deltaTime;
-             attackDuration -= Time.deltaTime;
-             specialAttackImage.GetComponent<Image>().color = new Color32(255, 255, 225, 100);
-         }
-         if (attackDuration <= 0) {
-             especialAttack.Stop();
-         }*/
+       
         if (specialAttackPoints >= 15)
         {
             specialAttackImage.GetComponent<Image>().color = new Color32(255, 255, 225, 225);
