@@ -143,11 +143,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dirX: 0
-  moveSpeed: 2
+  moveSpeed: 5
   rb: {fileID: 0}
   localScale: {x: 0, y: 0, z: 0}
   target: {fileID: 0}
   facingRight: 0
+  player: {fileID: 0}
 --- !u!114 &6675376160761583451
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,5 +166,9 @@ MonoBehaviour:
   startDazedTime: 0.6
   skeleton: {fileID: 0}
   bat: {fileID: 0}
+  boss: {fileID: 0}
   flashTime: 1
   renderer: {fileID: 0}
+  bossCanTakeDamage: 1
+  bossTimeInvincible: 1
+  bossHealth: 0

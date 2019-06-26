@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class GroundEnemy : MonoBehaviour{
     public float dirX;
-    public float moveSpeed = 3f;
+    public float moveSpeed;
+    public float multiplier;
+    public float speed;
     public Rigidbody2D rb;
     public bool facingRight = false;
     public Vector3 localScale;
@@ -24,12 +26,13 @@ public class GroundEnemy : MonoBehaviour{
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         player = GameObject.FindGameObjectWithTag("Player");
         jumpForce = 250f;
+        speed = 3f;
         if(Wave_Spawner.nextWave > 0){
-            float multiplier = ((Wave_Spawner.nextWave * 5.0f) / 100.0f) + 1.0f;
-            //Debug.Log("Multiplier is: " + multiplier.ToString("n2"));
-            moveSpeed = moveSpeed * multiplier;
-            Debug.Log("Movement speed is: " + moveSpeed);
+            multiplier = ((Wave_Spawner.nextWave * 5.0f) / 100.0f) + 1.0f;
+        } else {
+            multiplier = 1.0f;
         }
+        moveSpeed = speed * multiplier;
     }
 
     // Update is called once per frame
@@ -42,11 +45,16 @@ public class GroundEnemy : MonoBehaviour{
     }
 
     private void FixedUpdate(){
+        Debug.Log("Movement speed is: " + moveSpeed);
         rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
     }
 
     private void LateUpdate(){
         CheckPosition();
+    }
+
+    public void restoreSpeed(){
+        moveSpeed = speed * multiplier;
     }
 
     void CheckPosition(){

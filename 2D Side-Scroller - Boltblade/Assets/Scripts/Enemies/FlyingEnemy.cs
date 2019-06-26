@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class FlyingEnemy : MonoBehaviour{
     public float dirX;
-    public float moveSpeed = 2f;
+    public float moveSpeed;
+    public float speed;
+    public float multiplier;
     public Rigidbody2D rb;
     public Vector3 localScale;
     public Transform target;
@@ -18,12 +20,13 @@ public class FlyingEnemy : MonoBehaviour{
         dirX = -1f;
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         player = GameObject.FindGameObjectWithTag("Player");
-        if (Wave_Spawner.nextWave > 0){
-            float multiplier = ((Wave_Spawner.nextWave * 5.0f) / 100.0f) + 1.0f;
-            //Debug.Log("Multiplier is: " + multiplier.ToString("n2"));
-            moveSpeed = moveSpeed * multiplier;
-            Debug.Log("Movement speed is: " + moveSpeed);
+        speed = 3f;
+        if(Wave_Spawner.nextWave > 0){
+            multiplier = ((Wave_Spawner.nextWave * 5.0f) / 100.0f) + 1.0f;
+        } else {
+            multiplier = 1.0f;
         }
+        moveSpeed = speed * multiplier;
     }
 
     // Update is called once per frame
@@ -35,10 +38,15 @@ public class FlyingEnemy : MonoBehaviour{
             dirX = -1f;
         }
         transform.position = Vector2.MoveTowards(transform.position, target.position, moveSpeed * Time.deltaTime);
+        Debug.Log("Movement speed is: " + moveSpeed);
     }
 
     private void LateUpdate(){
         CheckPosition();
+    }
+
+    public void restoreSpeed(){
+        moveSpeed = speed * multiplier;
     }
 
     void CheckPosition(){

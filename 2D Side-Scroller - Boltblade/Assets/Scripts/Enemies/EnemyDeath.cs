@@ -41,11 +41,11 @@ public class EnemyDeath : MonoBehaviour{
         if (dazedTime <= 0){ //Add multiplier too
             if (this.tag == "Skeleton"){
                 skeleton = gameObject.GetComponent<GroundEnemy>();
-                skeleton.moveSpeed = 1;
+                skeleton.restoreSpeed();
             }
             else if (this.tag == "Bat"){
                 bat = gameObject.GetComponent<FlyingEnemy>();
-                bat.moveSpeed = 2;
+                bat.restoreSpeed();
             }
             else if (this.tag == "Boss"){
                 boss = gameObject.GetComponent<BossEnemy>();
@@ -69,36 +69,30 @@ public class EnemyDeath : MonoBehaviour{
         }
     }
 
-    void FixedUpdate()
-        {
-            if (!bossCanTakeDamage)
-            {
-                bossTimeInvincible -= Time.deltaTime;
-            }
-            if(bossTimeInvincible <= 0)
-            {
-                bossCanTakeDamage = true;
-            }
+    void FixedUpdate(){
+        if (!bossCanTakeDamage){
+            bossTimeInvincible -= Time.deltaTime;
         }
+        if(bossTimeInvincible <= 0){
+            bossCanTakeDamage = true;
+        }
+    }
 
     //Enemy receives damage when the player attacks
     public void takeDamage(float damage){
         dazedTime = startDazedTime;
         FlashRed();
-        if (this.tag == "Boss")
-        {
-            if(bossCanTakeDamage)
-            {
+        if (this.tag == "Boss"){
+            if(bossCanTakeDamage){
                 Debug.Log("Boss took damage");
                 health = health - damage;
-                gameObject.GetComponent<GameHandler>().ReduceHealthBar(health/bossHealth);
+                StartCoroutine ( gameObject.GetComponent<GameHandler>().ReduceHealthBar(health/bossHealth) );
                 Debug.Log("Boss health left: " + health);
                 bossCanTakeDamage = false;
                 bossTimeInvincible = 1f;
             }
         }
-        else
-        {
+        else{
             health = health - damage;
         }
     }
@@ -111,6 +105,5 @@ public class EnemyDeath : MonoBehaviour{
     void ResetColor(){
         renderer.material.color = origionalColor;
     }
-
 
 }
