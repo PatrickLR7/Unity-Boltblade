@@ -1,0 +1,24 @@
+Art Assets downloaded for the project:
+
+*Maps and Enemies:
+-Grotto Escape Artwork: https://assetstore.unity.com/packages/2d/textures-materials/grotto-escape-pack-54254
+-Grotto Escape II: https://assetstore.unity.com/packages/2d/textures-materials/grotto-escape-ii-86689
+
+*Main Character (Knight):
+-OpenGameArt: https://opengameart.org/content/knight-and-knight-animation
+
+*Slash Texture (We used it as a base and modified it's colors):
+-Doung Le FX (Youtube): https://drive.google.com/file/d/0B8TDWvYJQZQGZXkzaGg4UTdmM1E/view
+
+*Electric Attack (We modified the assets):
+-JMO Assets: https://assetstore.unity.com/packages/vfx/particles/cartoon-fx-free-109565
+
+*Boss health bar:
+-CodeMonkey Assets: https://unitycodemonkey.com/video.php?v=Gtw7VyuMdDc
+
+*UI:
+-Pixel Heart: https://pixabay.com/illustrations/pixel-heart-heart-pixel-symbol-red-2779422/
+-Pixel Lightning Bolt (we changed the color): http://pixelartmaker.com/art/a9f00c9246bf3dd
+
+*All the code written for project was created by following tutorials or by writting it on our own, we didn't
+download code from the unity asset store.
